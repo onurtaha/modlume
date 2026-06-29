@@ -65,107 +65,161 @@ export default async function ModPage({ params }: Props) {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Header */}
-      <div className="relative border-b border-border/50 bg-gradient-to-b from-primary/5 to-transparent">
-        <div className="container mx-auto px-4 py-12">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-            {/* Icon */}
-            {project.icon_url ? (
-              <div className="relative shrink-0">
-                <div className="relative h-24 w-24 overflow-hidden rounded-2xl border-2 border-border shadow-lg">
-                  <Image
-                    src={project.icon_url}
-                    alt={project.title}
-                    fill
-                    className="object-cover"
-                    sizes="96px"
-                  />
-                </div>
-                <div className="absolute -bottom-2 -right-2 rounded-lg bg-primary px-2 py-1 text-xs font-bold text-primary-foreground">
-                  FORGE
-                </div>
-              </div>
-            ) : (
-              <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl border-2 border-border bg-muted">
-                <FileText className="h-12 w-12 text-muted-foreground" />
-              </div>
-            )}
-
-            {/* Info */}
-            <div className="flex-1">
-              <div className="flex flex-wrap items-center gap-3">
-                <h1 className="text-3xl font-bold">{project.title}</h1>
-                <Badge variant="secondary" className="text-xs">
-                  1.21.11
-                </Badge>
-              </div>
-              
-              {team.length > 0 && (
-                <p className="mt-1 text-muted-foreground">
-                  by <span className="text-foreground">{team[0].user.username}</span>
-                </p>
-              )}
-              
-              <p className="mt-3 max-w-3xl text-muted-foreground">
-                {project.description}
-              </p>
-
-              {/* Stats */}
-              <div className="mt-4 flex flex-wrap items-center gap-6 text-sm">
-                <div className="flex items-center gap-2">
-                  <Download className="h-4 w-4 text-primary" />
-                  <span>{formatDownloads(project.downloads)} downloads</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Heart className="h-4 w-4 text-primary" />
-                  <span>{formatDownloads(project.followers)} followers</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-primary" />
-                  <span>Updated {timeAgo(project.updated)}</span>
+      {/* Hero Header with Gallery */}
+      <div className="relative border-b border-border/50">
+        {/* Large Preview Gallery */}
+        {project.gallery.length > 0 && (
+          <div className="relative h-64 md:h-80 lg:h-96 w-full overflow-hidden">
+            <Image
+              src={project.gallery[0].url}
+              alt={project.title}
+              fill
+              className="object-cover"
+              priority
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+              <div className="container mx-auto">
+                <div className="flex flex-col md:flex-row md:items-end gap-4 md:gap-8">
+                  {/* Icon + Info */}
+                  <div className="flex items-end gap-4 flex-1">
+                    {project.icon_url ? (
+                      <div className="relative shrink-0">
+                        <div className="relative h-16 w-16 overflow-hidden rounded-xl border-2 border-border bg-card shadow-lg md:h-20 md:w-20">
+                          <Image
+                            src={project.icon_url}
+                            alt={project.title}
+                            fill
+                            className="object-cover"
+                            sizes="80px"
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex h-16 w-16 md:h-20 md:w-20 shrink-0 items-center justify-center rounded-xl border-2 border-border bg-muted">
+                        <FileText className="h-8 w-8 md:h-10 md:w-10 text-muted-foreground" />
+                      </div>
+                    )}
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h1 className="text-2xl md:text-3xl font-bold">{project.title}</h1>
+                        <Badge variant="secondary" className="text-xs">1.21.11</Badge>
+                        <Badge variant="outline" className="text-xs bg-primary/20 border-primary/50 text-primary">FORGE</Badge>
+                      </div>
+                      {team.length > 0 && (
+                        <p className="text-sm text-muted-foreground mt-1">
+                          by <span className="text-foreground">{team[0].user.username}</span>
+                        </p>
+                      )}
+                      <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Download className="h-3 w-3" />
+                          {formatDownloads(project.downloads)}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Heart className="h-3 w-3" />
+                          {formatDownloads(project.followers)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Download Button */}
+                  <div className="shrink-0">
+                    <a href={`/api/download/${project.slug || project.id}`} className="download-btn inline-flex">
+                      <Download className="h-5 w-5" />
+                      <span>Download Mod</span>
+                      <span className="hidden md:inline text-sm opacity-80 ml-2">• Minecraft 1.21.11 Forge</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+        )}
 
-            {/* Download CTA */}
-            <div className="shrink-0 lg:w-72 space-y-3">
-              <a href={`/api/download/${project.slug || project.id}`} className="download-btn">
-                <Download className="h-5 w-5" />
-                Download Mod
-              </a>
-              <p className="text-center text-xs text-muted-foreground">
-                Minecraft 1.21.11 • Forge Required
-              </p>
-              
-              {/* Installation Guide */}
-              <div className="rounded-xl border border-border bg-card p-4">
-                <h3 className="mb-3 text-sm font-semibold flex items-center gap-2">
-                  <Shield className="h-4 w-4 text-primary" />
-                  How to Install
-                </h3>
-                <ol className="space-y-2 text-xs text-muted-foreground">
-                  <li className="flex gap-2">
-                    <span className="text-primary font-medium">1.</span>
-                    Download the .jar file above
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-primary font-medium">2.</span>
-                    Open TLauncher
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-primary font-medium">3.</span>
-                    Click the folder icon to open Minecraft folder
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-primary font-medium">4.</span>
-                    Put the .jar file in the <strong className="text-foreground">mods</strong> folder
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-primary font-medium">5.</span>
-                    Launch Minecraft with <strong className="text-foreground">Forge 1.21.11</strong>
-                  </li>
-                </ol>
+        {/* Fallback Hero if no gallery */}
+        {!project.gallery.length && (
+          <div className="bg-gradient-to-b from-primary/5 to-transparent">
+            <div className="container mx-auto px-4 py-12">
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+                {/* Icon */}
+                {project.icon_url ? (
+                  <div className="relative shrink-0">
+                    <div className="relative h-24 w-24 overflow-hidden rounded-2xl border-2 border-border shadow-lg">
+                      <Image
+                        src={project.icon_url}
+                        alt={project.title}
+                        fill
+                        className="object-cover"
+                        sizes="96px"
+                      />
+                    </div>
+                    <Badge variant="outline" className="absolute -bottom-2 -right-2 text-xs bg-primary/20 border-primary/50 text-primary">FORGE</Badge>
+                  </div>
+                ) : (
+                  <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl border-2 border-border bg-muted">
+                    <FileText className="h-12 w-12 text-muted-foreground" />
+                  </div>
+                )}
+
+                {/* Info */}
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <h1 className="text-3xl font-bold">{project.title}</h1>
+                    <Badge variant="secondary" className="text-xs">1.21.11</Badge>
+                  </div>
+                  {team.length > 0 && (
+                    <p className="mt-1 text-muted-foreground">
+                      by <span className="text-foreground">{team[0].user.username}</span>
+                    </p>
+                  )}
+                  <p className="mt-3 max-w-3xl text-muted-foreground">
+                    {project.description}
+                  </p>
+                  <div className="mt-4 flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
+                    <span className="flex items-center gap-1">
+                      <Download className="h-4 w-4" />
+                      {formatDownloads(project.downloads)} downloads
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Heart className="h-4 w-4" />
+                      {formatDownloads(project.followers)} followers
+                    </span>
+                  </div>
+                </div>
+
+                {/* Download */}
+                <div className="shrink-0 lg:w-72">
+                  <a href={`/api/download/${project.slug || project.id}`} className="download-btn inline-flex">
+                    <Download className="h-5 w-5" />
+                    <span>Download Mod</span>
+                    <span className="hidden md:inline text-sm opacity-80 ml-2">• Minecraft 1.21.11 Forge</span>
+                  </a>
+                </div>
               </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Installation Guide */}
+      <div className="bg-card/50 border-b border-border/50">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
+            <div className="flex items-center gap-2 text-sm">
+              <Shield className="h-4 w-4 text-primary" />
+              <span className="font-medium">How to Install:</span>
+            </div>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
+              <span>1. Download .jar file</span>
+              <span className="hidden md:inline">→</span>
+              <span>2. Open TLauncher</span>
+              <span className="hidden md:inline">→</span>
+              <span>3. Put in mods folder</span>
+              <span className="hidden md:inline">→</span>
+              <span>4. Launch with <strong className="text-foreground">Forge 1.21.11</strong></span>
             </div>
           </div>
         </div>
@@ -176,22 +230,22 @@ export default async function ModPage({ params }: Props) {
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Left Column - Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Gallery */}
-            {project.gallery.length > 0 && (
+            {/* Gallery Thumbnails */}
+            {project.gallery.length > 1 && (
               <section>
                 <div className="mb-4 flex items-center gap-2">
                   <ImageIcon className="h-5 w-5 text-primary" />
                   <h2 className="text-xl font-semibold">Screenshots</h2>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
-                  {project.gallery.slice(0, 6).map((img, i) => (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {project.gallery.slice(1, 7).map((img, i) => (
                     <div
                       key={i}
                       className="group relative aspect-video overflow-hidden rounded-xl border border-border bg-muted"
                     >
                       <Image
                         src={img.url}
-                        alt={img.title || `Screenshot ${i + 1}`}
+                        alt={img.title || `Screenshot ${i + 2}`}
                         fill
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                         sizes="(max-width: 768px) 50vw, 33vw"
@@ -204,11 +258,6 @@ export default async function ModPage({ params }: Props) {
                     </div>
                   ))}
                 </div>
-                {project.gallery.length > 6 && (
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    +{project.gallery.length - 6} more screenshots available on Modrinth
-                  </p>
-                )}
               </section>
             )}
 
