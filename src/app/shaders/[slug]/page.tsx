@@ -132,11 +132,11 @@ export default async function ShaderPage({ params }: Props) {
         <div className="warning-box">
           <p className="text-sm text-foreground">
             <span className="mr-2">⚠️</span>
-            <strong>This shader only works with Minecraft 1.21.x using OptiFine or Iris.</strong> Vanilla Minecraft is not supported.
+            <strong>This shader only works with Minecraft 1.21.11 using OptiFine or Iris.</strong> Vanilla Minecraft is not supported.
           </p>
         </div>
 
-        <a href="/modlume-mod.jar" download={`${project.slug || project.id}.jar`} className="download-btn">
+        <a href={`/api/download/${project.slug || project.id}`} className="download-btn">
           <Download className="h-5 w-5" />
           Download (.jar)
         </a>
@@ -264,41 +264,27 @@ export default async function ShaderPage({ params }: Props) {
           {/* Game Versions */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm">Minecraft Versions</CardTitle>
+              <CardTitle className="text-sm">Minecraft Version</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-wrap gap-1.5">
-                {project.game_versions.slice(-10).reverse().map((gv) => (
-                  <Badge key={gv} variant="outline" className="text-xs">
-                    {gv}
-                  </Badge>
-                ))}
-                {project.game_versions.length > 10 && (
-                  <Badge variant="outline" className="text-xs">
-                    +{project.game_versions.length - 10} more
-                  </Badge>
-                )}
-              </div>
+              <Badge variant="outline" className="text-xs">
+                1.21.11
+              </Badge>
             </CardContent>
           </Card>
 
           {/* Loaders */}
-          {project.loaders.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm">Loaders</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-1.5">
-                  {project.loaders.map((l) => (
-                    <Badge key={l} variant="secondary">
-                      {l}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm">Supported</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-1.5">
+                <Badge variant="secondary">OptiFine</Badge>
+                <Badge variant="secondary">Iris</Badge>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* License */}
           {project.license && (

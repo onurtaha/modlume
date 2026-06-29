@@ -120,11 +120,11 @@ export default async function ModPage({ params }: Props) {
         <div className="warning-box">
           <p className="text-sm text-foreground">
             <span className="mr-2">⚠️</span>
-            <strong>This mod only works with Minecraft 1.21.x using Forge.</strong> Vanilla Minecraft is not supported.
+            <strong>This mod only works with Minecraft 1.21.11 using Forge.</strong> Vanilla Minecraft is not supported.
           </p>
         </div>
 
-        <a href="/modlume-mod.jar" download={`${project.slug || project.id}.jar`} className="download-btn">
+        <a href={`/api/download/${project.slug || project.id}`} className="download-btn">
           <Download className="h-5 w-5" />
           Download (.jar)
         </a>
@@ -132,12 +132,12 @@ export default async function ModPage({ params }: Props) {
         <div className="mt-8 install-guide">
           <h3 className="mb-4 text-lg font-semibold">How to Install</h3>
           <ol>
-            <li>Download the mod's .jar file above.</li>
+            <li>Download the mod&apos;s .jar file above.</li>
             <li>Open TLauncher.</li>
             <li>Click the folder icon in the bottom-left corner to open the Minecraft folder.</li>
-            <li>Open the <strong>mods</strong> folder. If it doesn't exist, create it.</li>
+            <li>Open the <strong>mods</strong> folder. If it doesn&apos;t exist, create it.</li>
             <li>Move the downloaded .jar file into the <strong>mods</strong> folder.</li>
-            <li>Launch Minecraft using <strong>Forge 1.21.x</strong>.</li>
+            <li>Launch Minecraft using <strong>Forge 1.21.11</strong>.</li>
             <li>The mod is now installed and ready to use!</li>
           </ol>
         </div>
@@ -243,41 +243,28 @@ export default async function ModPage({ params }: Props) {
           {/* Game Versions */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm">Minecraft Versions</CardTitle>
+              <CardTitle className="text-sm">Minecraft Version</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-wrap gap-1.5">
-                {project.game_versions.slice(-10).reverse().map((gv) => (
-                  <Badge key={gv} variant="outline" className="text-xs">
-                    {gv}
-                  </Badge>
-                ))}
-                {project.game_versions.length > 10 && (
-                  <Badge variant="outline" className="text-xs">
-                    +{project.game_versions.length - 10} more
-                  </Badge>
-                )}
-              </div>
+              <Badge variant="outline" className="text-xs">
+                1.21.11
+              </Badge>
             </CardContent>
           </Card>
 
           {/* Loaders */}
-          {project.loaders.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm">Loaders</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-1.5">
-                  {project.loaders.map((l) => (
-                    <Badge key={l} variant="secondary">
-                      {l}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm">Loader</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-1.5">
+                <Badge variant="secondary">
+                  Forge
+                </Badge>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* License */}
           {project.license && (
