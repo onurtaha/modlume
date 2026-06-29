@@ -15,7 +15,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { curatedMods } from "@/lib/curatedMods";
-import galleryData from "@/public/assets/mods/gallery.json" assert { type: "json" };
+import galleryData from "@/lib/gallery";
 
 type Props = { params: Promise<{ slug: string }> };
 
