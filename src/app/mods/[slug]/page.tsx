@@ -121,26 +121,37 @@ export default async function ModPage({ params }: Props) {
 
       {/* Tutorial */}
       <div className="bg-card/50 border-b border-border/50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center gap-4">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex flex-col md:flex-row md:items-center gap-6">
             <div className="shrink-0">
-              <video
-                src="/how-to-install.mp4"
-                controls
-                loop
-                muted
-                playsInline
-                className="h-24 w-auto rounded-xl border border-border shadow-md"
-              />
+              <div className="relative rounded-2xl border border-border shadow-2xl overflow-hidden bg-black">
+                <video
+                  src="/how-to-install.mp4"
+                  controls
+                  loop
+                  muted
+                  playsInline
+                  className="w-full md:w-[320px] h-[180px] md:h-[200px] object-cover"
+                />
+              </div>
             </div>
-            <div>
-              <p className="text-sm font-medium flex items-center gap-2">
-                <Shield className="h-4 w-4 text-primary" />
-                Tutorial
+            <div className="flex-1">
+              <p className="text-lg font-semibold flex items-center gap-2">
+                <Shield className="h-5 w-5 text-primary" />
+                Installation Tutorial
               </p>
-              <p className="text-xs text-muted-foreground mt-1">
-                Watch the video above • Then download and install with Forge 1.21.11
+              <p className="text-sm text-muted-foreground mt-2">
+                Watch the video to see how to install mods. Then download and install with Forge 1.21.11.
               </p>
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                <a href={`/api/download/${mod.slug}`} className="download-btn inline-flex px-6 py-2">
+                  <Download className="h-4 w-4" />
+                  Download Mod
+                </a>
+                <span className="text-xs text-muted-foreground">
+                  Click video for fullscreen
+                </span>
+              </div>
             </div>
           </div>
         </div>

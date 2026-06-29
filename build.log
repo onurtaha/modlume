@@ -5,8 +5,8 @@
    ▲ Next.js 15.5.19 (Turbopack)
 
    Creating an optimized production build ...
- ✓ Finished writing to disk in 945ms
- ✓ Compiled successfully in 16.9s
+ ✓ Finished writing to disk in 479ms
+ ✓ Compiled successfully in 8.9s
    Linting and checking validity of types ...
 
 ./src/app/mods/[slug]/page.tsx
@@ -64,14 +64,14 @@ Route (app)                         Size  First Load JS  Revalidate  Expire
 ├ ○ /terms                           0 B         204 kB
 ├ ƒ /trending                        0 B         212 kB
 └ ○ /tutorial                        0 B         204 kB
-+ First Load JS shared by all     219 kB
++ First Load JS shared by all     220 kB
   ├ chunks/235d6bf3a14b5b25.js   59.2 kB
   ├ chunks/2610923d06877076.js   40.9 kB
   ├ chunks/4753c229f5f6a782.js   18.9 kB
   ├ chunks/8082ab48faca5ea1.js   17.2 kB
   ├ chunks/a157df406910df56.js   10.6 kB
   ├ chunks/f8a9db6745e9c4d0.js     21 kB
-  ├ chunks/fe953d7479eeff08.css  15.2 kB
+  ├ chunks/8e5e1c8242ea7273.css  15.3 kB
   └ other shared chunks (total)  36.5 kB
 
 
