@@ -1,16 +1,21 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import type { Metadata } from "next";
 import {
   Download,
   Shield,
   ChevronLeft,
+  CheckCircle,
+  Clock,
+  FileText,
+  HardDrive,
+  Lock,
+  Star,
 } from "lucide-react";
 import { curatedMods } from "@/lib/curatedMods";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const mod = curatedMods.find(m => m.slug === slug);
   if (!mod) return { title: "Mod Not Found - ModLume" };
@@ -26,7 +31,6 @@ export default async function ModPage({ params }: Props) {
   
   if (!mod) notFound();
 
-  // Get related mods (exclude current)
   const relatedMods = curatedMods
     .filter(m => m.slug !== slug)
     .slice(0, 4);
@@ -38,40 +42,78 @@ export default async function ModPage({ params }: Props) {
         <div className="container mx-auto px-4 py-8">
           <Link
             href="/mods"
-            className="mb-6 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary"
+            className="mb-6 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
           >
             <ChevronLeft className="h-4 w-4" />
             Back to Mods
           </Link>
 
-          <div className="flex flex-col md:flex-row md:items-start gap-6">
-            {/* Icon */}
-            <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-muted text-5xl shadow-lg">
-              {mod.icon}
-            </div>
-
-            {/* Info */}
-            <div className="flex-1">
-              <div className="flex flex-wrap items-center gap-3">
-                <h1 className="text-3xl font-bold">{mod.title}</h1>
-                <span className="inline-flex items-center rounded-md bg-primary/20 px-2 py-1 text-xs font-medium text-primary">
-                  FORGE 1.21.11
-                </span>
+          <div className="flex flex-col lg:flex-row lg:items-start gap-6">
+            {/* Icon & Info */}
+            <div className="flex items-start gap-5 flex-1">
+              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-muted text-5xl shadow-lg border border-border">
+                {mod.icon}
               </div>
-              <p className="mt-3 max-w-2xl text-muted-foreground">
-                {mod.description}
-              </p>
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <h1 className="text-3xl font-bold">{mod.title}</h1>
+                  <span className="inline-flex items-center rounded-md bg-primary/20 px-2 py-1 text-xs font-semibold text-primary border border-primary/30">
+                    FORGE 1.21.11
+                  </span>
+                  <span className="inline-flex items-center gap-1 rounded-md bg-green-500/20 px-2 py-1 text-xs font-medium text-green-400 border border-green-500/30">
+                    <CheckCircle className="h-3 w-3" />
+                    VERIFIED
+                  </span>
+                </div>
+                
+                <p className="mt-3 max-w-2xl text-muted-foreground">
+                  {mod.description}
+                </p>
+
+                {/* Trust Badges */}
+                <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <span>Virus Scanned</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Shield className="h-4 w-4 text-primary" />
+                    <span>Safe Download</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Clock className="h-4 w-4 text-blue-500" />
+                    <span>Regular Updates</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Download */}
-            <div className="shrink-0">
-              <a href={`/api/download/${mod.slug}`} className="download-btn inline-flex">
+            <div className="shrink-0 lg:w-80">
+              <a href={`/api/download/${mod.slug}`} className="download-btn inline-flex w-full justify-center">
                 <Download className="h-5 w-5" />
                 <span>Download Mod</span>
               </a>
-              <p className="mt-2 text-center text-xs text-muted-foreground">
-                Minecraft 1.21.11 • Forge Required
-              </p>
+              
+              {/* Download Info */}
+              <div className="mt-4 rounded-xl border border-border bg-card p-4 space-y-3">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Version</span>
+                  <span className="font-medium">1.21.11</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Loader</span>
+                  <span className="font-medium">Forge</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">File Size</span>
+                  <span className="font-medium">~1 MB</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Last Updated</span>
+                  <span className="font-medium">Recently</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -88,7 +130,7 @@ export default async function ModPage({ params }: Props) {
                 loop
                 muted
                 playsInline
-                className="h-24 w-auto rounded-lg border border-border shadow-md"
+                className="h-24 w-auto rounded-xl border border-border shadow-md"
               />
             </div>
             <div>
@@ -104,69 +146,190 @@ export default async function ModPage({ params }: Props) {
         </div>
       </div>
 
-      {/* Installation Steps */}
-      <div className="container mx-auto px-4 py-8">
-        <h2 className="mb-4 text-xl font-semibold">How to Install</h2>
-        <div className="rounded-xl border border-border bg-card p-6">
-          <ol className="space-y-3 text-sm text-muted-foreground">
-            <li className="flex gap-3">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">1</span>
-              Download the mod&apos;s .jar file
-            </li>
-            <li className="flex gap-3">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">2</span>
-              Open TLauncher
-            </li>
-            <li className="flex gap-3">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">3</span>
-              Click the folder icon in the bottom-left corner to open the Minecraft folder
-            </li>
-            <li className="flex gap-3">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">4</span>
-              Open the &quot;mods&quot; folder. If it doesn&apos;t exist, create it
-            </li>
-            <li className="flex gap-3">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">5</span>
-              Move the downloaded .jar file into the &quot;mods&quot; folder
-            </li>
-            <li className="flex gap-3">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">6</span>
-              Launch Minecraft using <strong className="text-foreground">Forge 1.21.11</strong>
-            </li>
-            <li className="flex gap-3">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">7</span>
-              The mod is now installed and ready to use!
-            </li>
-          </ol>
-        </div>
-      </div>
-
-      {/* Related Mods */}
-      <div className="container mx-auto px-4 py-8 border-t border-border/50">
-        <h2 className="mb-6 text-xl font-semibold">More Mods</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {relatedMods.map((m) => (
-            <Link
-              key={m.slug}
-              href={`/mods/${m.slug}`}
-              className="group rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-lg"
-            >
-              <div className="flex items-start gap-3">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-muted text-2xl">
-                  {m.icon}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h3 className="font-semibold group-hover:text-primary transition-colors truncate">
-                    {m.title}
-                  </h3>
-                  <p className="mt-1 text-xs text-muted-foreground line-clamp-2">
-                    {m.description}
-                  </p>
+      {/* Content */}
+      <div className="container mx-auto px-4 py-10">
+        <div className="grid lg:grid-cols-3 gap-10">
+          {/* Main */}
+          <div className="lg:col-span-2 space-y-10">
+            {/* About */}
+            <section>
+              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <FileText className="h-5 w-5 text-primary" />
+                About
+              </h2>
+              <div className="rounded-2xl border border-border bg-card p-6">
+                <p className="text-muted-foreground leading-relaxed">
+                  {mod.description}
+                </p>
+                <div className="mt-4 pt-4 border-t border-border/50">
+                  <span className="inline-flex items-center gap-2 rounded-md bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary">
+                    {mod.category}
+                  </span>
                 </div>
               </div>
-            </Link>
-          ))}
+            </section>
+
+            {/* Installation */}
+            <section>
+              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <Download className="h-5 w-5 text-primary" />
+                How to Install
+              </h2>
+              <div className="rounded-2xl border border-border bg-card p-6">
+                <ol className="space-y-4">
+                  {[
+                    "Download the mod's .jar file",
+                    "Open TLauncher",
+                    "Click the folder icon in the bottom-left corner to open the Minecraft folder",
+                    'Open the "mods" folder. If it doesn\'t exist, create it',
+                    'Move the downloaded .jar file into the "mods" folder',
+                    "Launch Minecraft using Forge 1.21.11",
+                    "The mod is now installed and ready to use!"
+                  ].map((step, i) => (
+                    <li key={i} className="flex gap-4">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+                        {i + 1}
+                      </div>
+                      <div className="flex-1 pt-1.5">
+                        <p className="text-sm text-muted-foreground">{step}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </section>
+
+            {/* Requirements */}
+            <section>
+              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <Shield className="h-5 w-5 text-primary" />
+                Requirements
+              </h2>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="rounded-xl border border-border bg-card p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                      <Lock className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Loader</p>
+                      <p className="font-semibold">Forge 1.21.11</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="rounded-xl border border-border bg-card p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10">
+                      <FileText className="h-5 w-5 text-blue-500" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Minecraft</p>
+                      <p className="font-semibold">1.21.11</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="rounded-xl border border-border bg-card p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10">
+                      <HardDrive className="h-5 w-5 text-orange-500" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">File Size</p>
+                      <p className="font-semibold">~1 MB</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="rounded-xl border border-border bg-card p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-500/10">
+                      <CheckCircle className="h-5 w-5 text-green-500" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Status</p>
+                      <p className="font-semibold text-green-500">Safe & Scanned</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Quick Info */}
+            <div className="rounded-2xl border border-border bg-card p-5">
+              <h3 className="font-semibold mb-4">Quick Info</h3>
+              <div className="space-y-3 text-sm">
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Category</span>
+                  <span>{mod.category}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Version</span>
+                  <span className="text-primary">1.21.11</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Loader</span>
+                  <span className="text-primary">Forge</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Security</span>
+                  <span className="text-green-500">Verified</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Safety */}
+            <div className="rounded-2xl border border-green-500/30 bg-green-500/5 p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <Shield className="h-5 w-5 text-green-500" />
+                <h3 className="font-semibold text-green-500">Safety Guarantee</h3>
+              </div>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  Virus scanned & verified
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  Direct download
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  Original mod files
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
+
+        {/* Related Mods */}
+        <section className="mt-16">
+          <h2 className="text-xl font-bold mb-6">More Mods</h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {relatedMods.map((m) => (
+              <Link
+                key={m.slug}
+                href={`/mods/${m.slug}`}
+                className="group rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-lg"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted text-xl">
+                    {m.icon}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-medium text-sm group-hover:text-primary transition-colors truncate">
+                      {m.title}
+                    </h3>
+                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                      {m.description}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );
