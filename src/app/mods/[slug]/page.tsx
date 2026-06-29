@@ -128,14 +128,44 @@ export default async function ModPage({ params }: Props) {
             </div>
 
             {/* Download CTA */}
-            <div className="shrink-0 lg:w-72">
+            <div className="shrink-0 lg:w-72 space-y-3">
               <a href={`/api/download/${project.slug || project.id}`} className="download-btn">
                 <Download className="h-5 w-5" />
                 Download Mod
               </a>
-              <p className="mt-2 text-center text-xs text-muted-foreground">
+              <p className="text-center text-xs text-muted-foreground">
                 Minecraft 1.21.11 • Forge Required
               </p>
+              
+              {/* Installation Guide */}
+              <div className="rounded-xl border border-border bg-card p-4">
+                <h3 className="mb-3 text-sm font-semibold flex items-center gap-2">
+                  <Shield className="h-4 w-4 text-primary" />
+                  How to Install
+                </h3>
+                <ol className="space-y-2 text-xs text-muted-foreground">
+                  <li className="flex gap-2">
+                    <span className="text-primary font-medium">1.</span>
+                    Download the .jar file above
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary font-medium">2.</span>
+                    Open TLauncher
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary font-medium">3.</span>
+                    Click the folder icon to open Minecraft folder
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary font-medium">4.</span>
+                    Put the .jar file in the <strong className="text-foreground">mods</strong> folder
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary font-medium">5.</span>
+                    Launch Minecraft with <strong className="text-foreground">Forge 1.21.11</strong>
+                  </li>
+                </ol>
+              </div>
             </div>
           </div>
         </div>
@@ -146,19 +176,6 @@ export default async function ModPage({ params }: Props) {
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Left Column - Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Info Banner */}
-            <div className="warning-box">
-              <div className="flex items-start gap-3">
-                <Shield className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-medium">Forge Required</p>
-                  <p className="text-sm text-muted-foreground">
-                    This mod requires Minecraft 1.21.11 with Forge installed. Vanilla Minecraft is not supported.
-                  </p>
-                </div>
-              </div>
-            </div>
-
             {/* Gallery */}
             {project.gallery.length > 0 && (
               <section>

@@ -12,6 +12,7 @@ import {
   ImageIcon,
   Sparkles,
   Eye,
+  Shield,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -127,14 +128,44 @@ export default async function ShaderPage({ params }: Props) {
             </div>
 
             {/* Download CTA */}
-            <div className="shrink-0 lg:w-72">
+            <div className="shrink-0 lg:w-72 space-y-3">
               <a href={`/api/download/${project.slug || project.id}`} className="download-btn">
                 <Download className="h-5 w-5" />
                 Download Shader
               </a>
-              <p className="mt-2 text-center text-xs text-muted-foreground">
-                Minecraft 1.21.11 • OptiFine/Iris
+              <p className="text-center text-xs text-muted-foreground">
+                Minecraft 1.21.11 • OptiFine/Iris Required
               </p>
+              
+              {/* Installation Guide */}
+              <div className="rounded-xl border border-border bg-card p-4">
+                <h3 className="mb-3 text-sm font-semibold flex items-center gap-2">
+                  <Shield className="h-4 w-4 text-primary" />
+                  How to Install
+                </h3>
+                <ol className="space-y-2 text-xs text-muted-foreground">
+                  <li className="flex gap-2">
+                    <span className="text-primary font-medium">1.</span>
+                    Download the shader file above
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary font-medium">2.</span>
+                    Open Minecraft with OptiFine or Iris
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary font-medium">3.</span>
+                    Go to Options &gt; Video Settings &gt; Shaders
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary font-medium">4.</span>
+                    Click &quot;Shaders Folder&quot; and put the file there
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary font-medium">5.</span>
+                    Select the shader and click &quot;Done&quot;
+                  </li>
+                </ol>
+              </div>
             </div>
           </div>
         </div>
@@ -145,19 +176,6 @@ export default async function ShaderPage({ params }: Props) {
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Left Column - Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Info Banner */}
-            <div className="warning-box">
-              <div className="flex items-start gap-3">
-                <Eye className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-medium">OptiFine or Iris Required</p>
-                  <p className="text-sm text-muted-foreground">
-                    This shader requires Minecraft 1.21.11 with OptiFine or Iris installed. Vanilla Minecraft is not supported.
-                  </p>
-                </div>
-              </div>
-            </div>
-
             {/* Gallery */}
             {project.gallery.length > 0 && (
               <section>
