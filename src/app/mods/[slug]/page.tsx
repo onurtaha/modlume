@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Download,
   Shield,
@@ -10,8 +11,11 @@ import {
   HardDrive,
   Lock,
   Star,
+  Image as ImageIcon,
+  ChevronRight,
 } from "lucide-react";
 import { curatedMods } from "@/lib/curatedMods";
+import galleryData from "@/public/assets/mods/gallery.json" assert { type: "json" };
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -179,6 +183,28 @@ export default async function ModPage({ params }: Props) {
                 </div>
               </div>
             </section>
+
+            {/* Gallery */}
+            {(galleryData as Record<string, string[]>)[slug]?.length > 0 && (
+              <section>
+                <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                  <ImageIcon className="h-5 w-5 text-primary" />
+                  Screenshots
+                </h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {(galleryData as Record<string, string[]>)[slug].map((img, i) => (
+                    <div key={i} className="relative aspect-video rounded-xl overflow-hidden border border-border bg-muted group cursor-pointer">
+                      <img 
+                        src={img} 
+                        alt={`${mod.title} screenshot ${i + 1}`}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* Installation */}
             <section>
