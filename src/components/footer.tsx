@@ -35,8 +35,7 @@ export function Footer() {
               <span className="text-xl font-bold">ModLume</span>
             </Link>
             <p className="text-sm text-muted-foreground max-w-sm">
-              The best curated collection of Minecraft mods for Forge 1.21.11. 
-              Download, install, and enhance your game.
+              Download the best Minecraft mods for Forge 1.21.11. Safe, fast, and easy.
             </p>
             <div className="mt-4 flex items-center gap-4">
               <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">

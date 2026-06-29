@@ -30,15 +30,13 @@ export default async function Home() {
             </div>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-              The Best{" "}
               <span className="bg-gradient-to-r from-primary to-emerald-400 bg-clip-text text-transparent">
-                Minecraft Mods
+                ModLume
               </span>
             </h1>
             
             <p className="mt-6 text-lg text-muted-foreground max-w-xl mx-auto">
-              Curated collection of {curatedMods.length}+ premium mods for Forge 1.21.11. 
-              Download, install, and play in minutes.
+              Download the best Minecraft mods for Forge 1.21.11. Safe, fast, and easy.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -223,7 +221,7 @@ export default async function Home() {
                 Ready to Enhance Your Game?
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-                Browse our curated collection of {curatedMods.length}+ mods and find the perfect additions for your Minecraft world.
+                Download premium Minecraft mods for Forge 1.21.11. Safe and easy installation.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
