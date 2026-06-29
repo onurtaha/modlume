@@ -108,7 +108,7 @@ export function Footer() {
             © {new Date().getFullYear()} ModLume. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground">
-            Minecraft mod downloads are provided by third-party developers.
+            ModLume is not affiliated with Minecraft or Mojang. Minecraft® is a trademark of Mojang Studios.
           </p>
         </div>
       </div>
