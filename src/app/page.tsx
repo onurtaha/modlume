@@ -3,7 +3,7 @@ import { ArrowRight, Download, Shield, CheckCircle, Zap, Star, Sparkles, Box, Pl
 import { featuredMods, additionalMods } from "@/lib/curatedMods";
 
 const stats = [
-  { icon: Box, label: "Mods", value: featuredMods.length + additionalMods.length },
+  { icon: Box, label: "Mods", value: "+99" },
   { icon: Shield, label: "Safe", value: "100%" },
   { icon: Zap, label: "Fast", value: "DL" },
 ];
