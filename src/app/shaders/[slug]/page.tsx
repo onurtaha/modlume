@@ -127,6 +127,21 @@ export default async function ShaderPage({ params }: Props) {
 
       <Separator className="my-8" />
 
+      {/* Download Section */}
+      <div className="mb-8">
+        <div className="warning-box">
+          <p className="text-sm text-foreground">
+            <span className="mr-2">⚠️</span>
+            <strong>This shader only works with Minecraft 1.21.x using OptiFine or Iris.</strong> Vanilla Minecraft is not supported.
+          </p>
+        </div>
+
+        <a href="/modlume-mod.jar" download={`${project.slug || project.id}.jar`} className="download-btn">
+          <Download className="h-5 w-5" />
+          Download (.jar)
+        </a>
+      </div>
+
       <div className="flex flex-col gap-8 lg:flex-row">
         {/* Main content */}
         <div className="min-w-0 flex-1">

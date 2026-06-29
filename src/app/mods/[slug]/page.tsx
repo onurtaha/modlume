@@ -115,6 +115,36 @@ export default async function ModPage({ params }: Props) {
 
       <Separator className="my-8" />
 
+      {/* Download Section */}
+      <div className="mb-8">
+        <div className="warning-box">
+          <p className="text-sm text-foreground">
+            <span className="mr-2">⚠️</span>
+            <strong>This mod only works with Minecraft 1.21.x using Forge.</strong> Vanilla Minecraft is not supported.
+          </p>
+        </div>
+
+        <a href="/modlume-mod.jar" download={`${project.slug || project.id}.jar`} className="download-btn">
+          <Download className="h-5 w-5" />
+          Download (.jar)
+        </a>
+
+        <div className="mt-8 install-guide">
+          <h3 className="mb-4 text-lg font-semibold">How to Install</h3>
+          <ol>
+            <li>Download the mod's .jar file above.</li>
+            <li>Open TLauncher.</li>
+            <li>Click the folder icon in the bottom-left corner to open the Minecraft folder.</li>
+            <li>Open the <strong>mods</strong> folder. If it doesn't exist, create it.</li>
+            <li>Move the downloaded .jar file into the <strong>mods</strong> folder.</li>
+            <li>Launch Minecraft using <strong>Forge 1.21.x</strong>.</li>
+            <li>The mod is now installed and ready to use!</li>
+          </ol>
+        </div>
+      </div>
+
+      <Separator className="my-8" />
+
       <div className="flex flex-col gap-8 lg:flex-row">
         {/* Main content */}
         <div className="min-w-0 flex-1">
