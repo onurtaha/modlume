@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Search, Menu, Box, Flame, Grid3X3, Layers, Sparkles } from "lucide-react";
+import { Search, Menu, Box, Flame, Grid3X3, Layers, Sparkles, Play } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ const navLinks = [
   { href: "/", label: "Home", icon: Box },
   { href: "/mods", label: "Mods", icon: Layers },
   { href: "/shaders", label: "Shaders", icon: Sparkles },
+  { href: "/tutorial", label: "How to Install", icon: Play },
   { href: "/categories", label: "Categories", icon: Grid3X3 },
   { href: "/trending", label: "Trending", icon: Flame },
 ];
