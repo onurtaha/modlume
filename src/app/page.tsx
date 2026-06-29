@@ -1,26 +1,23 @@
 import Link from "next/link";
-import { ArrowRight, Download, Shield, Clock, CheckCircle, Zap, Flame, Star, Sparkles, Cpu, Box } from "lucide-react";
-import { curatedMods } from "@/lib/curatedMods";
+import { ArrowRight, Download, Shield, CheckCircle, Zap, Star, Sparkles, Box, Plus } from "lucide-react";
+import { featuredMods, additionalMods } from "@/lib/curatedMods";
 
 const stats = [
-  { icon: Box, label: "Mods", value: curatedMods.length },
+  { icon: Box, label: "Mods", value: featuredMods.length + additionalMods.length },
   { icon: Shield, label: "Safe", value: "100%" },
   { icon: Zap, label: "Fast", value: "DL" },
 ];
 
 const categories = [
-  { name: "Optimization", emoji: "⚡", count: 3 },
+  { name: "Creatures", emoji: "🐾", count: 1 },
+  { name: "Pets", emoji: "🐕", count: 3 },
+  { name: "Farm", emoji: "🌾", count: 2 },
   { name: "Storage", emoji: "📦", count: 3 },
-  { name: "World Gen", emoji: "🗺️", count: 4 },
+  { name: "World Gen", emoji: "🗺️", count: 2 },
   { name: "Mobs", emoji: "🐉", count: 4 },
-  { name: "Decoration", emoji: "🏠", count: 5 },
-  { name: "Utility", emoji: "🔧", count: 2 },
 ];
 
 export default async function Home() {
-  const featuredMods = curatedMods.slice(0, 8);
-  const trendingMods = curatedMods.slice(0, 4);
-
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
@@ -77,14 +74,14 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Featured Mods */}
+      {/* Featured Mods - Your Collection */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="mb-8 flex items-center justify-between">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <Flame className="h-5 w-5 text-orange-500" />
-                <span className="text-sm font-medium text-orange-500">Popular</span>
+                <Star className="h-5 w-5 text-primary" />
+                <span className="text-sm font-medium text-primary">Curated</span>
               </div>
               <h2 className="text-2xl font-bold">Featured Mods</h2>
             </div>
@@ -94,7 +91,7 @@ export default async function Home() {
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {featuredMods.map((mod, i) => (
+            {featuredMods.slice(0, 8).map((mod) => (
               <Link
                 key={mod.slug}
                 href={"/mods/" + mod.slug}
@@ -125,12 +122,35 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* More Featured */}
+      <section className="py-8">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {featuredMods.slice(8, 16).map((mod) => (
+              <Link
+                key={mod.slug}
+                href={"/mods/" + mod.slug}
+                className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-lg"
+              >
+                <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-lg">
+                  <img src={mod.image} alt="" className="w-full h-full object-cover" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-sm font-medium group-hover:text-primary transition-colors truncate">{mod.title}</h3>
+                  <span className="mt-2 inline-block text-xs text-primary">{mod.category}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Categories */}
       <section className="py-16 border-t border-border/50">
         <div className="container mx-auto px-4">
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-1">
-              <Star className="h-5 w-5 text-primary" />
+              <Box className="h-5 w-5 text-primary" />
               <span className="text-sm font-medium text-primary">Browse</span>
             </div>
             <h2 className="text-2xl font-bold">Categories</h2>
@@ -152,21 +172,19 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Trending */}
+      {/* Additional Mods */}
       <section className="py-16 border-t border-border/50">
         <div className="container mx-auto px-4">
-          <div className="mb-8 flex items-center justify-between">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <Cpu className="h-5 w-5 text-primary" />
-                <span className="text-sm font-medium text-primary">Top Picks</span>
-              </div>
-              <h2 className="text-2xl font-bold">Trending Now</h2>
+          <div className="mb-8">
+            <div className="flex items-center gap-2 mb-1">
+              <Plus className="h-5 w-5 text-emerald-500" />
+              <span className="text-sm font-medium text-emerald-500">Recommended</span>
             </div>
+            <h2 className="text-2xl font-bold">More Mods</h2>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {trendingMods.map((mod) => (
+            {additionalMods.map((mod) => (
               <Link
                 key={mod.slug}
                 href={"/mods/" + mod.slug}
