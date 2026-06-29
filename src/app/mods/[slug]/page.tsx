@@ -9,11 +9,12 @@ import {
   ExternalLink,
   Scale,
   Users,
-  Layers,
+  FileText,
+  ImageIcon,
+  Shield,
+  Loader,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProjectCard } from "@/components/project-card";
 import {
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const project = await getProject(slug);
     return {
-      title: project.title,
+      title: `${project.title} - ModLume`,
       description: project.description,
       openGraph: {
         title: project.title,
@@ -42,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
     };
   } catch {
-    return { title: "Mod Not Found" };
+    return { title: "Mod Not Found - ModLume" };
   }
 }
 
@@ -63,345 +64,341 @@ export default async function ModPage({ params }: Props) {
   const related = await getRelatedProjects(project.id);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="flex flex-col gap-6 md:flex-row md:items-start">
-        <div className="flex flex-1 items-start gap-4">
-          {project.icon_url ? (
-            <Image
-              src={project.icon_url}
-              alt={project.title}
-              width={80}
-              height={80}
-              className="rounded-xl"
-            />
-          ) : (
-            <div className="flex h-20 w-20 items-center justify-center rounded-xl bg-muted">
-              <Layers className="h-10 w-10 text-muted-foreground" />
-            </div>
-          )}
-          <div className="min-w-0 flex-1">
-            <h1 className="text-3xl font-bold">{project.title}</h1>
-            {team.length > 0 && (
-              <p className="mt-1 text-muted-foreground">
-                by {team[0].user.username}
-              </p>
+    <div className="min-h-screen">
+      {/* Hero Header */}
+      <div className="relative border-b border-border/50 bg-gradient-to-b from-primary/5 to-transparent">
+        <div className="container mx-auto px-4 py-12">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+            {/* Icon */}
+            {project.icon_url ? (
+              <div className="relative shrink-0">
+                <div className="relative h-24 w-24 overflow-hidden rounded-2xl border-2 border-border shadow-lg">
+                  <Image
+                    src={project.icon_url}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                    sizes="96px"
+                  />
+                </div>
+                <div className="absolute -bottom-2 -right-2 rounded-lg bg-primary px-2 py-1 text-xs font-bold text-primary-foreground">
+                  FORGE
+                </div>
+              </div>
+            ) : (
+              <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl border-2 border-border bg-muted">
+                <FileText className="h-12 w-12 text-muted-foreground" />
+              </div>
             )}
-            <p className="mt-2 text-muted-foreground">{project.description}</p>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {project.categories.map((cat) => (
-                <Badge key={cat} variant="secondary">
-                  {cat}
+
+            {/* Info */}
+            <div className="flex-1">
+              <div className="flex flex-wrap items-center gap-3">
+                <h1 className="text-3xl font-bold">{project.title}</h1>
+                <Badge variant="secondary" className="text-xs">
+                  1.21.11
                 </Badge>
-              ))}
+              </div>
+              
+              {team.length > 0 && (
+                <p className="mt-1 text-muted-foreground">
+                  by <span className="text-foreground">{team[0].user.username}</span>
+                </p>
+              )}
+              
+              <p className="mt-3 max-w-3xl text-muted-foreground">
+                {project.description}
+              </p>
+
+              {/* Stats */}
+              <div className="mt-4 flex flex-wrap items-center gap-6 text-sm">
+                <div className="flex items-center gap-2">
+                  <Download className="h-4 w-4 text-primary" />
+                  <span>{formatDownloads(project.downloads)} downloads</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Heart className="h-4 w-4 text-primary" />
+                  <span>{formatDownloads(project.followers)} followers</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-primary" />
+                  <span>Updated {timeAgo(project.updated)}</span>
+                </div>
+              </div>
             </div>
-            <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-              <span className="inline-flex items-center gap-1">
-                <Download className="h-4 w-4" />
-                {formatDownloads(project.downloads)} downloads
-              </span>
-              <span className="inline-flex items-center gap-1">
-                <Heart className="h-4 w-4" />
-                {formatDownloads(project.followers)} followers
-              </span>
-              <span className="inline-flex items-center gap-1">
-                <Calendar className="h-4 w-4" />
-                Updated {timeAgo(project.updated)}
-              </span>
+
+            {/* Download CTA */}
+            <div className="shrink-0 lg:w-72">
+              <a href={`/api/download/${project.slug || project.id}`} className="download-btn">
+                <Download className="h-5 w-5" />
+                Download Mod
+              </a>
+              <p className="mt-2 text-center text-xs text-muted-foreground">
+                Minecraft 1.21.11 • Forge Required
+              </p>
             </div>
           </div>
         </div>
       </div>
 
-      <Separator className="my-8" />
-
-      {/* Download Section */}
-      <div className="mb-8">
-        <div className="warning-box">
-          <p className="text-sm text-foreground">
-            <span className="mr-2">⚠️</span>
-            <strong>This mod only works with Minecraft 1.21.11 using Forge.</strong> Vanilla Minecraft is not supported.
-          </p>
-        </div>
-
-        <a href={`/api/download/${project.slug || project.id}`} className="download-btn">
-          <Download className="h-5 w-5" />
-          Download (.jar)
-        </a>
-
-        <div className="mt-8 install-guide">
-          <h3 className="mb-4 text-lg font-semibold">How to Install</h3>
-          <ol>
-            <li>Download the mod&apos;s .jar file above.</li>
-            <li>Open TLauncher.</li>
-            <li>Click the folder icon in the bottom-left corner to open the Minecraft folder.</li>
-            <li>Open the <strong>mods</strong> folder. If it doesn&apos;t exist, create it.</li>
-            <li>Move the downloaded .jar file into the <strong>mods</strong> folder.</li>
-            <li>Launch Minecraft using <strong>Forge 1.21.11</strong>.</li>
-            <li>The mod is now installed and ready to use!</li>
-          </ol>
-        </div>
-      </div>
-
-      <Separator className="my-8" />
-
-      <div className="flex flex-col gap-8 lg:flex-row">
-        {/* Main content */}
-        <div className="min-w-0 flex-1">
-          {/* Gallery */}
-          {project.gallery.length > 0 && (
-            <section className="mb-8">
-              <h2 className="mb-4 text-xl font-semibold">Gallery</h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-                {project.gallery.map((img, i) => (
-                  <div
-                    key={i}
-                    className="group relative overflow-hidden rounded-lg border border-border"
-                  >
-                    <Image
-                      src={img.url}
-                      alt={img.title || `Screenshot ${i + 1}`}
-                      width={600}
-                      height={340}
-                      className="aspect-video w-full object-cover transition-transform group-hover:scale-105"
-                    />
-                    {img.title && (
-                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3">
-                        <p className="text-sm font-medium text-white">
-                          {img.title}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                ))}
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid gap-8 lg:grid-cols-3">
+          {/* Left Column - Main Content */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Info Banner */}
+            <div className="warning-box">
+              <div className="flex items-start gap-3">
+                <Shield className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-medium">Forge Required</p>
+                  <p className="text-sm text-muted-foreground">
+                    This mod requires Minecraft 1.21.11 with Forge installed. Vanilla Minecraft is not supported.
+                  </p>
+                </div>
               </div>
-            </section>
-          )}
+            </div>
 
-          {/* Body / Description */}
-          <section className="mb-8">
-            <h2 className="mb-4 text-xl font-semibold">Description</h2>
-            <div
-              className="prose prose-invert max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary prose-strong:text-foreground prose-img:rounded-lg"
-              dangerouslySetInnerHTML={{ __html: project.body }}
-            />
-          </section>
-
-          {/* Versions */}
-          {versions.length > 0 && (
-            <section className="mb-8">
-              <h2 className="mb-4 text-xl font-semibold">Versions</h2>
-              <div className="space-y-3">
-                {versions.slice(0, 20).map((v) => (
-                  <Card key={v.id}>
-                    <CardContent className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
-                      <div className="min-w-0 flex-1">
-                        <p className="font-semibold">{v.name}</p>
-                        <div className="mt-1 flex flex-wrap gap-1.5">
-                          {v.game_versions.slice(0, 5).map((gv) => (
-                            <Badge key={gv} variant="outline" className="text-xs">
-                              {gv}
-                            </Badge>
-                          ))}
-                          {v.game_versions.length > 5 && (
-                            <Badge variant="outline" className="text-xs">
-                              +{v.game_versions.length - 5}
-                            </Badge>
-                          )}
-                          {v.loaders.map((l) => (
-                            <Badge key={l} variant="secondary" className="text-xs">
-                              {l}
-                            </Badge>
-                          ))}
+            {/* Gallery */}
+            {project.gallery.length > 0 && (
+              <section>
+                <div className="mb-4 flex items-center gap-2">
+                  <ImageIcon className="h-5 w-5 text-primary" />
+                  <h2 className="text-xl font-semibold">Screenshots</h2>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  {project.gallery.slice(0, 6).map((img, i) => (
+                    <div
+                      key={i}
+                      className="group relative aspect-video overflow-hidden rounded-xl border border-border bg-muted"
+                    >
+                      <Image
+                        src={img.url}
+                        alt={img.title || `Screenshot ${i + 1}`}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        sizes="(max-width: 768px) 50vw, 33vw"
+                      />
+                      {img.title && (
+                        <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition-opacity group-hover:opacity-100">
+                          <span className="text-sm font-medium text-white">{img.title}</span>
                         </div>
-                        <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
-                          <span className="inline-flex items-center gap-1">
-                            <Download className="h-3 w-3" />
-                            {formatDownloads(v.downloads)}
-                          </span>
-                          <span>{timeAgo(v.date_published)}</span>
-                        </div>
-                      </div>
-                      {v.files[0] && (
-                        <a href={v.files[0].url} target="_blank" rel="noopener noreferrer">
-                          <Button variant="default" size="sm">
-                            <Download className="mr-1 h-3.5 w-3.5" />
-                            Download
-                          </Button>
-                        </a>
                       )}
-                    </CardContent>
-                  </Card>
-                ))}
+                    </div>
+                  ))}
+                </div>
+                {project.gallery.length > 6 && (
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    +{project.gallery.length - 6} more screenshots available on Modrinth
+                  </p>
+                )}
+              </section>
+            )}
+
+            {/* Description */}
+            <section>
+              <div className="mb-4 flex items-center gap-2">
+                <FileText className="h-5 w-5 text-primary" />
+                <h2 className="text-xl font-semibold">About This Mod</h2>
+              </div>
+              <div className="rounded-xl border border-border bg-card p-6">
+                <div
+                  className="prose prose-sm prose-invert max-w-none 
+                    prose-headings:text-foreground prose-p:text-muted-foreground 
+                    prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+                    prose-strong:text-foreground prose-li:text-muted-foreground
+                    prose-img:rounded-lg prose-img:border prose-img:border-border"
+                  dangerouslySetInnerHTML={{ __html: project.body }}
+                />
               </div>
             </section>
-          )}
-        </div>
 
-        {/* Sidebar */}
-        <aside className="w-full shrink-0 space-y-6 lg:w-72">
-          {/* Game Versions */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-sm">Minecraft Version</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Badge variant="outline" className="text-xs">
-                1.21.11
-              </Badge>
-            </CardContent>
-          </Card>
+            {/* Versions */}
+            {versions.length > 0 && (
+              <section>
+                <div className="mb-4 flex items-center gap-2">
+                  <Loader className="h-5 w-5 text-primary" />
+                  <h2 className="text-xl font-semibold">Versions</h2>
+                </div>
+                <div className="space-y-2">
+                  {versions.slice(0, 10).map((v) => (
+                    <div
+                      key={v.id}
+                      className="flex items-center justify-between rounded-lg border border-border bg-card px-4 py-3 transition-colors hover:bg-muted/50"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div>
+                          <p className="font-medium">{v.name}</p>
+                          <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
+                            <span>{formatDownloads(v.downloads)} downloads</span>
+                            <span>•</span>
+                            <span>{timeAgo(v.date_published)}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <Badge variant="outline" className="text-xs">
+                        1.21.11
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+          </div>
 
-          {/* Loaders */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-sm">Loader</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-1.5">
-                <Badge variant="secondary">
-                  Forge
-                </Badge>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* License */}
-          {project.license && (
+          {/* Right Column - Sidebar */}
+          <div className="space-y-6">
+            {/* Quick Info */}
             <Card>
-              <CardHeader>
-                <CardTitle className="text-sm">License</CardTitle>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-semibold">Quick Info</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Scale className="h-4 w-4" />
-                  {project.license.url ? (
+              <CardContent className="space-y-4">
+                <div>
+                  <p className="text-xs text-muted-foreground">Minecraft Version</p>
+                  <p className="font-medium">1.21.11</p>
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">Loader</p>
+                  <p className="font-medium">Forge</p>
+                </div>
+                {project.license && (
+                  <div>
+                    <p className="text-xs text-muted-foreground">License</p>
                     <a
-                      href={project.license.url}
+                      href={project.license.url || "#"}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-primary hover:underline"
+                      className="flex items-center gap-1 font-medium text-primary hover:underline"
                     >
+                      <Scale className="h-3 w-3" />
                       {project.license.name}
                     </a>
-                  ) : (
-                    <span>{project.license.name}</span>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Links */}
-          {(project.source_url || project.issues_url || project.wiki_url || project.discord_url) && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm">Links</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2 text-sm">
-                {project.source_url && (
-                  <a
-                    href={project.source_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-primary hover:underline"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" />
-                    Source Code
-                  </a>
-                )}
-                {project.issues_url && (
-                  <a
-                    href={project.issues_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-primary hover:underline"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" />
-                    Issues
-                  </a>
-                )}
-                {project.wiki_url && (
-                  <a
-                    href={project.wiki_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-primary hover:underline"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" />
-                    Wiki
-                  </a>
-                )}
-                {project.discord_url && (
-                  <a
-                    href={project.discord_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-primary hover:underline"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" />
-                    Discord
-                  </a>
-                )}
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Team Members */}
-          {team.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm">Team</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {team.map((m) => (
-                  <div key={m.user.id} className="flex items-center gap-3">
-                    {m.user.avatar_url ? (
-                      <Image
-                        src={m.user.avatar_url}
-                        alt={m.user.username}
-                        width={32}
-                        height={32}
-                        className="rounded-full"
-                      />
-                    ) : (
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted">
-                        <Users className="h-4 w-4 text-muted-foreground" />
-                      </div>
-                    )}
-                    <div>
-                      <p className="text-sm font-medium">{m.user.username}</p>
-                      <p className="text-xs text-muted-foreground">{m.role}</p>
-                    </div>
                   </div>
-                ))}
+                )}
               </CardContent>
             </Card>
-          )}
-        </aside>
-      </div>
 
-      {/* Related Mods */}
-      {related.length > 0 && (
-        <section className="mt-12">
-          <h2 className="mb-6 text-2xl font-semibold">Related Mods</h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {(related as ModrinthProject[]).map((p) => (
-              <ProjectCard
-                key={p.slug || p.id}
-                slug={p.slug}
-                title={p.title}
-                description={p.description}
-                icon_url={p.icon_url}
-                downloads={p.downloads}
-                categories={p.categories || []}
-                project_type={p.project_type || "mod"}
-                updated={p.updated}
-              />
-            ))}
+            {/* Categories */}
+            {project.categories.length > 0 && (
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm font-semibold">Categories</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {project.categories.map((cat) => (
+                      <Badge key={cat} variant="secondary" className="text-xs">
+                        {cat.replace(/-/g, " ")}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Links */}
+            {(project.source_url || project.issues_url || project.wiki_url || project.discord_url) && (
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm font-semibold">Links</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  {project.source_url && (
+                    <a
+                      href={project.source_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary"
+                    >
+                      <ExternalLink className="h-3 w-3" />
+                      Source Code
+                    </a>
+                  )}
+                  {project.issues_url && (
+                    <a
+                      href={project.issues_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary"
+                    >
+                      <ExternalLink className="h-3 w-3" />
+                      Report Issue
+                    </a>
+                  )}
+                  {project.discord_url && (
+                    <a
+                      href={project.discord_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary"
+                    >
+                      <ExternalLink className="h-3 w-3" />
+                      Discord
+                    </a>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Team */}
+            {team.length > 0 && (
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm font-semibold">Developers</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {team.map((m) => (
+                    <div key={m.user.id} className="flex items-center gap-3">
+                      <div className="relative h-10 w-10 overflow-hidden rounded-full border border-border bg-muted">
+                        {m.user.avatar_url ? (
+                          <Image
+                            src={m.user.avatar_url}
+                            alt={m.user.username}
+                            fill
+                            className="object-cover"
+                            sizes="40px"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center">
+                            <Users className="h-5 w-5 text-muted-foreground" />
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium">{m.user.username}</p>
+                        <p className="text-xs capitalize text-muted-foreground">{m.role}</p>
+                      </div>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            )}
           </div>
-        </section>
-      )}
+        </div>
+
+        {/* Related Mods */}
+        {related.length > 0 && (
+          <section className="mt-12">
+            <h2 className="mb-6 text-xl font-semibold">Related Mods</h2>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {(related as ModrinthProject[]).map((p) => (
+                <ProjectCard
+                  key={p.slug || p.id}
+                  slug={p.slug}
+                  title={p.title}
+                  description={p.description}
+                  icon_url={p.icon_url}
+                  downloads={p.downloads}
+                  categories={p.categories || []}
+                  project_type={p.project_type || "mod"}
+                  updated={p.updated}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
     </div>
   );
 }
