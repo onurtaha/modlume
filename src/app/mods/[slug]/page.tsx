@@ -221,7 +221,7 @@ export default async function ModPage({ params }: Props) {
             <div className="flex-1">
               <p className="text-sm font-medium flex items-center gap-2">
                 <Shield className="h-4 w-4 text-primary" />
-                How to Install
+                Tutorial
               </p>
               <p className="text-xs text-muted-foreground mt-1">
                 Watch the video above • Then download and install with Forge 1.21.11
