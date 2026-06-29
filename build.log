@@ -5,26 +5,14 @@
    ▲ Next.js 15.5.19 (Turbopack)
 
    Creating an optimized production build ...
- ✓ Finished writing to disk in 479ms
- ✓ Compiled successfully in 8.9s
+ ✓ Finished writing to disk in 1490ms
+ ✓ Compiled successfully in 9.8s
    Linting and checking validity of types ...
 
 ./src/app/mods/[slug]/page.tsx
 12:3  Warning: 'Star' is defined but never used.  @typescript-eslint/no-unused-vars
-
-./src/app/page.tsx
-2:78  Warning: 'Sparkles' is defined but never used.  @typescript-eslint/no-unused-vars
-2:88  Warning: 'Grid3X3' is defined but never used.  @typescript-eslint/no-unused-vars
-2:97  Warning: 'TrendingUp' is defined but never used.  @typescript-eslint/no-unused-vars
-5:3  Warning: 'MotionDiv' is defined but never used.  @typescript-eslint/no-unused-vars
-6:3  Warning: 'MotionSection' is defined but never used.  @typescript-eslint/no-unused-vars
-7:3  Warning: 'MotionH1' is defined but never used.  @typescript-eslint/no-unused-vars
-8:3  Warning: 'MotionP' is defined but never used.  @typescript-eslint/no-unused-vars
-9:3  Warning: 'fadeUp' is defined but never used.  @typescript-eslint/no-unused-vars
-10:3  Warning: 'staggerContainer' is defined but never used.  @typescript-eslint/no-unused-vars
-102:37  Warning: 'i' is defined but never used.  @typescript-eslint/no-unused-vars
-183:37  Warning: 'i' is defined but never used.  @typescript-eslint/no-unused-vars
-226:32  Warning: 'i' is defined but never used.  @typescript-eslint/no-unused-vars
+56:19  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+334:23  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
 
 ./src/app/shaders/[slug]/page.tsx
 7:3  Warning: 'Calendar' is defined but never used.  @typescript-eslint/no-unused-vars
@@ -44,14 +32,14 @@ info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/d
    Collecting build traces ...
 
 Route (app)                         Size  First Load JS  Revalidate  Expire
-┌ ○ /                                0 B         204 kB
+┌ ○ /                                0 B         210 kB
 ├ ○ /_not-found                      0 B         204 kB
 ├ ○ /about                           0 B         204 kB
 ├ ○ /admin                       11.6 kB         216 kB
 ├ ƒ /api/download/[filename]         0 B            0 B
 ├ ○ /categories                      0 B         204 kB          5m      1y
 ├ ○ /contact                         0 B         204 kB
-├ ○ /mods                            0 B         204 kB
+├ ○ /mods                            0 B         210 kB
 ├ ƒ /mods/[slug]                     0 B         204 kB
 ├ ƒ /popular                         0 B         212 kB
 ├ ○ /privacy                         0 B         204 kB
@@ -59,7 +47,7 @@ Route (app)                         Size  First Load JS  Revalidate  Expire
 ├ ○ /robots.txt                      0 B            0 B
 ├ ƒ /search                          0 B         212 kB
 ├ ƒ /shaders                         0 B         212 kB
-├ ƒ /shaders/[slug]              7.78 kB         212 kB
+├ ƒ /shaders/[slug]              7.79 kB         212 kB
 ├ ○ /sitemap.xml                     0 B            0 B
 ├ ○ /terms                           0 B         204 kB
 ├ ƒ /trending                        0 B         212 kB
@@ -70,9 +58,9 @@ Route (app)                         Size  First Load JS  Revalidate  Expire
   ├ chunks/4753c229f5f6a782.js   18.9 kB
   ├ chunks/8082ab48faca5ea1.js   17.2 kB
   ├ chunks/a157df406910df56.js   10.6 kB
-  ├ chunks/f8a9db6745e9c4d0.js     21 kB
-  ├ chunks/8e5e1c8242ea7273.css  15.3 kB
-  └ other shared chunks (total)  36.5 kB
+  └ chunks/f8a9db6745e9c4d0.js     21 kB
+  ├ chunks/26a29e54fc882f18.css  14.5 kB
+  └ other shared chunks (total)  37.4 kB
 
 
 ○  (Static)   prerendered as static content

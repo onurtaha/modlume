@@ -51,8 +51,12 @@ export default async function ModPage({ params }: Props) {
           <div className="flex flex-col lg:flex-row lg:items-start gap-6">
             {/* Icon & Info */}
             <div className="flex items-start gap-5 flex-1">
-              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-muted text-5xl shadow-lg border border-border">
-                {mod.icon}
+              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-muted text-4xl shadow-lg border border-border overflow-hidden">
+                {mod.screenshot ? (
+                  <img src={mod.screenshot} alt="" className="w-full h-full object-cover" />
+                ) : (
+                  mod.icon || "🎮"
+                )}
               </div>
               <div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -321,12 +325,16 @@ export default async function ModPage({ params }: Props) {
             {relatedMods.map((m) => (
               <Link
                 key={m.slug}
-                href={`/mods/${m.slug}`}
+                href={"/mods/" + m.slug}
                 className="group rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-lg"
               >
                 <div className="flex items-start gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted text-xl">
-                    {m.icon}
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted text-lg overflow-hidden">
+                    {m.screenshot ? (
+                      <img src={m.screenshot} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      m.icon || "🎮"
+                    )}
                   </div>
                   <div className="min-w-0 flex-1">
                     <h3 className="font-medium text-sm group-hover:text-primary transition-colors truncate">
