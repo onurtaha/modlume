@@ -58,7 +58,6 @@ export default async function Home() {
               </Link>
             </div>
 
-            {/* Trust Badges */}
             <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-primary" />
@@ -77,7 +76,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Featured Mods with Gradient Cards */}
+      {/* Featured Mods */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="mb-8 flex items-center justify-between">
@@ -97,8 +96,13 @@ export default async function Home() {
                 href={"/mods/" + mod.slug}
                 className="group block rounded-2xl border border-border bg-card overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1"
               >
-                <div className={"relative h-36 overflow-hidden bg-gradient-to-br " + mod.color}>
-                  <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWlsbC1vcGFjaXR5PSIuMDUiPjxjaGFydCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJlc3VsdD0iaW5zaWRlIj48cGF0aCBkPSJNIDAgMCBMIDQwIDAgTCA0MCA0MCBMIDAgNDAgWiIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEiLz48L3JlY3Q+PC9nPjwvc3ZnPg==')] opacity-50" />
+                <div className="relative aspect-video overflow-hidden">
+                  <img 
+                    src={mod.preview} 
+                    alt={mod.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                   <div className="absolute top-3 right-3">
                     <span className="inline-flex items-center rounded-md bg-black/60 backdrop-blur-sm px-2 py-1 text-xs font-bold text-white">
                       FORGE
@@ -108,15 +112,15 @@ export default async function Home() {
                     <h3 className="text-lg font-bold text-white drop-shadow-lg">
                       {mod.title}
                     </h3>
+                    <p className="text-xs text-white/80 mt-1">
+                      {mod.category}
+                    </p>
                   </div>
                 </div>
                 <div className="p-4">
                   <p className="text-sm text-muted-foreground line-clamp-2">
                     {mod.description}
                   </p>
-                  <span className="mt-2 inline-flex items-center gap-1 text-xs text-primary font-medium">
-                    {mod.category} <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                  </span>
                 </div>
               </Link>
             ))}
@@ -171,8 +175,8 @@ export default async function Home() {
                 href={"/mods/" + mod.slug}
                 className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-lg"
               >
-                <div className={"shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br " + mod.color + " flex items-center justify-center"}>
-                  <span className="text-lg font-bold text-white/80">{mod.title.charAt(0)}</span>
+                <div className="relative h-12 w-16 shrink-0 overflow-hidden rounded-lg">
+                  <img src={mod.preview} alt="" className="w-full h-full object-cover" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <h3 className="font-medium text-sm group-hover:text-primary transition-colors truncate">
@@ -214,8 +218,8 @@ export default async function Home() {
                 href={"/mods/" + mod.slug}
                 className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-lg"
               >
-                <div className={"shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br " + mod.color + " flex items-center justify-center"}>
-                  <span className="text-lg font-bold text-white/80">{mod.title.charAt(0)}</span>
+                <div className="relative h-12 w-16 shrink-0 overflow-hidden rounded-lg">
+                  <img src={mod.preview} alt="" className="w-full h-full object-cover" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <h3 className="font-medium text-sm group-hover:text-primary transition-colors truncate">
@@ -238,8 +242,6 @@ export default async function Home() {
       <section className="py-20 border-t border-border/50">
         <div className="container mx-auto px-4">
           <div className="relative rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/20 via-card to-card overflow-hidden">
-            <div className="absolute inset-0 opacity-5" />
-            
             <div className="relative px-8 py-16 text-center">
               <h2 className="text-3xl md:text-4xl font-bold">
                 Ready to Enhance Your Game?

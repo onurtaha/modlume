@@ -5,12 +5,22 @@
    ▲ Next.js 15.5.19 (Turbopack)
 
    Creating an optimized production build ...
- ✓ Finished writing to disk in 117ms
- ✓ Compiled successfully in 7.3s
+ ✓ Finished writing to disk in 123ms
+ ✓ Compiled successfully in 9.1s
    Linting and checking validity of types ...
+
+./src/app/mods/page.tsx
+24:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
 
 ./src/app/mods/[slug]/page.tsx
 12:3  Warning: 'Star' is defined but never used.  @typescript-eslint/no-unused-vars
+55:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+328:19  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/app/page.tsx
+100:19  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+179:19  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+222:19  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
 
 ./src/app/shaders/[slug]/page.tsx
 7:3  Warning: 'Calendar' is defined but never used.  @typescript-eslint/no-unused-vars
@@ -50,15 +60,15 @@ Route (app)                         Size  First Load JS  Revalidate  Expire
 ├ ○ /terms                           0 B         204 kB
 ├ ƒ /trending                        0 B         212 kB
 └ ○ /tutorial                        0 B         204 kB
-+ First Load JS shared by all     222 kB
++ First Load JS shared by all     220 kB
   ├ chunks/235d6bf3a14b5b25.js   59.2 kB
   ├ chunks/2610923d06877076.js   40.9 kB
   ├ chunks/4753c229f5f6a782.js   18.9 kB
   ├ chunks/8082ab48faca5ea1.js   17.2 kB
   ├ chunks/a157df406910df56.js   10.6 kB
-  └ chunks/f8a9db6745e9c4d0.js     21 kB
-  ├ chunks/c8db4598c5262283.css  16.7 kB
-  └ other shared chunks (total)  37.4 kB
+  ├ chunks/f8a9db6745e9c4d0.js     21 kB
+  ├ chunks/db447302765cb4c6.css  15.3 kB
+  └ other shared chunks (total)  36.5 kB
 
 
 ○  (Static)   prerendered as static content

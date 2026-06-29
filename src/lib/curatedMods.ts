@@ -3,206 +3,64 @@ export interface CuratedMod {
   title: string;
   description: string;
   category: string;
-  color: string;
+  preview: string; // SVG data URI for preview image
 }
 
-const categoryColors: Record<string, string> = {
-  "Creatures": "from-green-600/40 to-emerald-800/60",
-  "Pets": "from-amber-600/40 to-orange-800/60",
-  "Farm": "from-yellow-600/40 to-lime-800/60",
-  "Fishing": "from-blue-600/40 to-cyan-800/60",
-  "Storage": "from-slate-600/40 to-gray-800/60",
-  "Utility": "from-purple-600/40 to-violet-800/60",
-  "Magic": "from-fuchsia-600/40 to-pink-800/60",
-  "World Gen": "from-teal-600/40 to-cyan-800/60",
-  "Dungeons": "from-red-600/40 to-rose-800/60",
-  "Mobs": "from-orange-600/40 to-red-800/60",
-  "Adventure": "from-indigo-600/40 to-blue-800/60",
-  "Tech": "from-yellow-600/40 to-amber-800/60",
-  "Decoration": "from-rose-600/40 to-pink-800/60",
+const previews: Record<string, string> = {
+  default: "data:image/svg+xml;base64," + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#1a472a"/><stop offset="100%" style="stop-color:#2d5a3d"/></defs><rect fill="url(#bg)" width="400" height="225"/><rect fill="#3d7a4a" x="10" y="10" width="50" height="50" rx="4"/><rect fill="#5a9a6a" x="70" y="70" width="40" height="40" rx="4"/><rect fill="#4a8a5a" x="130" y="30" width="60" height="60" rx="4"/><rect fill="#6aaa7a" x="200" y="100" width="80" height="80" rx="4"/><rect fill="#3d7a4a" x="300" y="50" width="70" height="70" rx="4"/><rect fill="#5a9a6a" x="20" y="150" width="45" height="45" rx="4"/><rect fill="#4a8a5a" x="250" y="160" width="55" height="55" rx="4"/><text x="200" y="115" font-family="Arial" font-size="24" fill="white" text-anchor="middle" opacity="0.9">MOD</text></svg>`),
+  
+  creatures: "data:image/svg+xml;base64," + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#166534"/><stop offset="100%" style="stop-color:#15803d"/></defs><rect fill="url(#bg)" width="400" height="225"/><circle cx="100" cy="100" r="35" fill="#22c55e"/><circle cx="200" cy="80" r="25" fill="#16a34a"/><circle cx="300" cy="120" r="30" fill="#15803d"/><circle cx="150" cy="160" r="20" fill="#166534"/><circle cx="250" cy="170" r="28" fill="#22c55e"/><ellipse cx="100" cy="100" rx="8" ry="12" fill="#166534"/><circle cx="95" cy="95" r="4" fill="white"/><ellipse cx="200" cy="80" rx="6" ry="9" fill="#166534"/><circle cx="196" cy="76" r="3" fill="white"/></svg>`),
+
+  pets: "data:image/svg+xml;base64," + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#92400e"/><stop offset="100%" style="stop-color:#b45309"/></defs><rect fill="url(#bg)" width="400" height="225"/><ellipse cx="200" cy="130" rx="60" ry="40" fill="#d97706"/><ellipse cx="200" cy="100" rx="45" ry="35" fill="#f59e0b"/><circle cx="185" cy="95" r="6" fill="#1c1917"/><circle cx="215" cy="95" r="6" fill="#1c1917"/><ellipse cx="200" cy="110" rx="10" ry="7" fill="#1c1917"/><rect x="175" y="60" width="15" height="25" rx="3" fill="#f59e0b"/><rect x="210" width="15" height="25" rx="3" fill="#f59e0b"/></svg>`),
+
+  farm: "data:image/svg+xml;base64," + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#a16207"/><stop offset="100%" style="stop-color:#ca8a04"/></defs><rect fill="url(#bg)" width="400" height="225"/><rect fill="#84cc16" x="0" y="140" width="400" height="85"/><rect fill="#65a30d" x="0" y="160" width="400" height="65"/><rect fill="#22c55e" x="50" y="100" width="30" height="60" rx="2"/><rect fill="#84cc16" x="45" y="80" width="40" height="30" rx="15"/><rect fill="#22c55e" x="150" y="110" width="25" height="50" rx="2"/><rect fill="#84cc16" x="145" y="95" width="35" height="25" rx="12"/><rect fill="#22c55e" x="280" y="90" width="35" height="70" rx="2"/><rect fill="#84cc16" x="272" y="65" width="50" height="35" rx="20"/></svg>`),
+
+  fishing: "data:image/svg+xml;base64," + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#0369a1"/><stop offset="100%" style="stop-color:#0ea5e9"/></defs><rect fill="url(#bg)" width="400" height="225"/><path d="M0 100 Q100 80 200 100 T400 90 L400 225 L0 225 Z" fill="#0c4a6e" opacity="0.5"/><path d="M0 130 Q100 110 200 130 T400 120 L400 225 L0 225 Z" fill="#0369a1" opacity="0.3"/><ellipse cx="200" cy="150" rx="40" ry="20" fill="#38bdf8"/><ellipse cx="100" cy="120" rx="25" ry="12" fill="#7dd3fc"/><ellipse cx="320" cy="100" rx="30" ry="15" fill="#bae6fd"/><path d="M200 60 L200 100 L220 90 M200 100 L180 90" stroke="#e2e8f0" stroke-width="3" fill="none"/></svg>`),
+
+  storage: "data:image/svg+xml;base64," + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#334155"/><stop offset="100%" style="stop-color:#475569"/></defs><rect fill="url(#bg)" width="400" height="225"/><rect fill="#64748b" x="80" y="60" width="100" height="80" rx="4"/><rect fill="#94a3b8" x="85" y="65" width="90" height="70" rx="2"/><rect fill="#475569" x="220" y="60" width="100" height="80" rx="4"/><rect fill="#64748b" x="225" y="65" width="90" height="70" rx="2"/><rect fill="#64748b" x="80" y="150" width="100" height="60" rx="4"/><rect fill="#94a3b8" x="85" y="155" width="90" height="50" rx="2"/><rect fill="#475569" x="220" y="150" width="100" height="60" rx="4"/><rect fill="#64748b" x="225" y="155" width="90" height="50" rx="2"/></svg>`),
+
+  utility: "data:image/svg+xml;base64," + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7c3aed"/><stop offset="100%" style="stop-color:#a855f7"/></defs><rect fill="url(#bg)" width="400" height="225"/><circle cx="200" cy="112" r="70" fill="#6d28d9" opacity="0.5"/><circle cx="200" cy="112" r="50" fill="#8b5cf6" opacity="0.5"/><circle cx="200" cy="112" r="30" fill="#a78bfa"/><circle cx="200" cy="112" r="15" fill="#c4b5fd"/><circle cx="200" cy="80" r="8" fill="white" opacity="0.8"/></svg>`),
+
+  magic: "data:image/svg+xml;base64," + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#86198f"/><stop offset="100%" style="stop-color:#c026d3"/></defs><rect fill="url(#bg)" width="400" height="225"/><polygon points="200,40 230,100 290,100 245,140 260,200 200,165 140,200 155,140 110,100 170,100" fill="#e879f9" opacity="0.8"/><circle cx="200" cy="120" r="25" fill="#f0abfc"/><circle cx="200" cy="120" r="15" fill="#fdf4ff"/></svg>`),
+
+  worldgen: "data:image/svg+xml;base64," + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#0d9488"/><stop offset="100%" style="stop-color:#14b8a6"/></defs><rect fill="url(#bg)" width="400" height="225"/><path d="M0 180 Q50 120 100 150 T200 130 T300 160 T400 140 L400 225 L0 225 Z" fill="#0f766e"/><path d="M0 200 Q50 160 100 180 T200 160 T300 180 T400 170 L400 225 L0 225 Z" fill="#115e59"/><path d="M80 100 L100 60 L120 100 Z" fill="#99f6e4"/><path d="M200 80 L230 30 L260 80 Z" fill="#5eead4"/><path d="M300 90 L320 50 L340 90 Z" fill="#2dd4bf"/><rect fill="#14b8a6" x="0" y="150" width="400" height="75"/></svg>`),
+
+  dungeons: "data:image/svg+xml;base64," + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7f1d1d"/><stop offset="100%" style="stop-color:#b91c1c"/></defs><rect fill="url(#bg)" width="400" height="225"/><rect fill="#991b1b" x="50" y="50" width="300" height="150" rx="4"/><rect fill="#7f1d1d" x="70" y="70" width="260" height="110" rx="2"/><rect fill="#450a0a" x="90" y="90" width="80" height="70" rx="2"/><rect fill="#450a0a" x="190" y="90" width="80" height="70" rx="2"/><rect fill="#450a0a" x="140" y="120" width="120" height="40" rx="2"/></svg>`),
+
+  mobs: "data:image/svg+xml;base64," + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#9a3412"/><stop offset="100%" style="stop-color:#ea580c"/></defs><rect fill="url(#bg)" width="400" height="225"/><path d="M200 50 L280 180 L120 180 Z" fill="#dc2626"/><circle cx="200" cy="120" r="35" fill="#ef4444"/><circle cx="185" cy="110" r="8" fill="#fbbf24"/><circle cx="215" cy="110" r="8" fill="#fbbf24"/><circle cx="185" cy="110" r="4" fill="#1c1917"/><circle cx="215" cy="110" r="4" fill="#1c1917"/></svg>`),
+
+  adventure: "data:image/svg+xml;base64," + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#1e1b4b"/><stop offset="100%" style="stop-color:#312e81"/></defs><rect fill="url(#bg)" width="400" height="225"/><circle cx="100" cy="60" r="20" fill="#fde047"/><circle cx="300" cy="80" r="15" fill="#a78bfa"/><circle cx="200" cy="50" r="12" fill="#c4b5fd"/><path d="M50 200 Q100 150 150 180 T250 160 T350 190" stroke="#4f46e5" stroke-width="3" fill="none"/><path d="M0 180 Q100 120 200 160 T400 140 L400 225 L0 225 Z" fill="#312e81"/><circle cx="180" cy="130" r="8" fill="#818cf8"/><circle cx="220" cy="100" r="6" fill="#a5b4fc"/></svg>`),
+
+  tech: "data:image/svg+xml;base64," + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#78716c"/><stop offset="100%" style="stop-color:#a8a29e"/></defs><rect fill="url(#bg)" width="400" height="225"/><circle cx="150" cy="112" r="60" fill="#57534e" opacity="0.5"/><circle cx="150" cy="112" r="40" fill="#78716c"/><circle cx="280" cy="112" r="50" fill="#57534e" opacity="0.5"/><circle cx="280" cy="112" r="30" fill="#78716c"/><path d="M190 112 L240 112" stroke="#d6d3d1" stroke-width="8"/><rect x="130" y="105" width="40" height="14" fill="#d6d3d1"/></svg>`),
+
+  decoration: "data:image/svg+xml;base64," + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#be185d"/><stop offset="100%" style="stop-color:#ec4899"/></defs><rect fill="url(#bg)" width="400" height="225"/><rect fill="#f472b6" x="50" y="100" width="60" height="80" rx="4"/><rect fill="#f9a8d4" x="60" y="110" width="40" height="60" rx="2"/><rect fill="#fdf2f8" x="70" y="120" width="20" height="40" rx="2"/><rect fill="#f472b6" x="170" y="80" width="50" height="100" rx="4"/><rect fill="#f9a8d4" x="180" y="90" width="30" height="80" rx="2"/><rect fill="#f472b6" x="280" y="110" width="70" height="70" rx="4"/><rect fill="#f9a8d4" x="290" y="120" width="50" height="50" rx="2"/></svg>`),
 };
 
 export const curatedMods: CuratedMod[] = [
-  {
-    slug: "alexsmobs",
-    title: "Alex's Mobs",
-    description: "Adds dozens of new animals including tigers, raccoons, seals, orcas, and many more wild creatures.",
-    category: "Creatures",
-    color: categoryColors["Creatures"]
-  },
-  {
-    slug: "doggy-talents-next",
-    title: "Doggy Talents Next",
-    description: "Train your dogs, level them up, and unlock new abilities. Your loyal companion has never been more useful!",
-    category: "Pets",
-    color: categoryColors["Pets"]
-  },
-  {
-    slug: "domestication-innovation",
-    title: "Domestication Innovation",
-    description: "New features and items for your tamed animals. Make your farm more productive than ever.",
-    category: "Farm",
-    color: categoryColors["Farm"]
-  },
-  {
-    slug: "better-dogs",
-    title: "Better Dogs",
-    description: "More realistic and diverse dog models. Your furry friend never looked this good.",
-    category: "Pets",
-    color: categoryColors["Pets"]
-  },
-  {
-    slug: "better-cats",
-    title: "Better Cats",
-    description: "New cat breeds and appearances. From fluffy Persians to sleek Siamese cats.",
-    category: "Pets",
-    color: categoryColors["Pets"]
-  },
-  {
-    slug: "aquaculture",
-    title: "Aquaculture 2",
-    description: "Completely overhauls fishing with new fish species, tackle, and advanced mechanics.",
-    category: "Fishing",
-    color: categoryColors["Fishing"]
-  },
-  {
-    slug: "farmers-delight",
-    title: "Farmer's Delight",
-    description: "Makes cooking and farming much more fun with new recipes, crops, and kitchen tools.",
-    category: "Farm",
-    color: categoryColors["Farm"]
-  },
-  {
-    slug: "sophisticated-backpacks",
-    title: "Sophisticated Backpacks",
-    description: "Advanced backpacks with upgrades, more inventory space, and better organization.",
-    category: "Storage",
-    color: categoryColors["Storage"]
-  },
-  {
-    slug: "waystones",
-    title: "Waystones",
-    description: "Easy teleportation system. Never walk the same path twice with portable waypoints.",
-    category: "Utility",
-    color: categoryColors["Utility"]
-  },
-  {
-    slug: "artifacts",
-    title: "Artifacts",
-    description: "Powerful magical items with unique abilities. Find, equip, and dominate.",
-    category: "Magic",
-    color: categoryColors["Magic"]
-  },
-  {
-    slug: "iron-chests",
-    title: "Iron Chests",
-    description: "Large storage chests in various materials. Upgrade your storage capacity significantly.",
-    category: "Storage",
-    color: categoryColors["Storage"]
-  },
-  {
-    slug: "storage-drawers",
-    title: "Storage Drawers",
-    description: "Organized storage solution with a clean interface. No more messy inventories.",
-    category: "Storage",
-    color: categoryColors["Storage"]
-  },
-  {
-    slug: "biomes-o-plenty",
-    title: "Biomes O' Plenty",
-    description: "Over 80 new biomes to explore. From cherry blossom forests to crystal caves.",
-    category: "World Gen",
-    color: categoryColors["World Gen"]
-  },
-  {
-    slug: "terralith",
-    title: "Terralith",
-    description: "Creates magnificent new world generation. Every landscape is breathtaking.",
-    category: "World Gen",
-    color: categoryColors["World Gen"]
-  },
-  {
-    slug: "yungs-better-dungeons",
-    title: "YUNG's Better Dungeons",
-    description: "Brand new dungeons to explore with unique loot and challenging encounters.",
-    category: "Dungeons",
-    color: categoryColors["Dungeons"]
-  },
-  {
-    slug: "yungs-better-mineshafts",
-    title: "YUNG's Better Mineshafts",
-    description: "Improved mineshafts with better visuals and more loot opportunities.",
-    category: "World Gen",
-    color: categoryColors["World Gen"]
-  },
-  {
-    slug: "mutant-more",
-    title: "Mutant Monsters",
-    description: "Giant and powerful mutant creatures. Epic bosses that will test your skills.",
-    category: "Mobs",
-    color: categoryColors["Mobs"]
-  },
-  {
-    slug: "ice-and-fire",
-    title: "Ice and Fire",
-    description: "Dragons, sea serpents, and more mythical creatures. Epic battles await.",
-    category: "Mobs",
-    color: categoryColors["Mobs"]
-  },
-  {
-    slug: "mowzies-mobs",
-    title: "Mowzie's Mobs",
-    description: "Unique bosses with distinct mechanics. Forged in Evil and other legendary encounters.",
-    category: "Mobs",
-    color: categoryColors["Mobs"]
-  },
-  {
-    slug: "twilight-forest",
-    title: "The Twilight Forest",
-    description: "Your own dimension with dozens of bosses. Explore a magical enchanted forest.",
-    category: "Adventure",
-    color: categoryColors["Adventure"]
-  },
-  {
-    slug: "create",
-    title: "Create",
-    description: "Machines and automation. Build contraptions, automate farms, and engineer your world.",
-    category: "Tech",
-    color: categoryColors["Tech"]
-  },
-  {
-    slug: "supplementaries",
-    title: "Supplementaries",
-    description: "Decorative and functional blocks. Faucets, turntables, jars, and much more.",
-    category: "Decoration",
-    color: categoryColors["Decoration"]
-  },
-  {
-    slug: "chipped",
-    title: "Chipped",
-    description: "Thousands of decorative block variants. Perfect for detailed building.",
-    category: "Decoration",
-    color: categoryColors["Decoration"]
-  },
-  {
-    slug: "macaws-fences-and-walls",
-    title: "Macaw's Fences",
-    description: "Beautiful fence and wall variations. Make your builds stand out.",
-    category: "Decoration",
-    color: categoryColors["Decoration"]
-  },
-  {
-    slug: "macaws-doors",
-    title: "Macaw's Doors",
-    description: "New door block varieties. From barn doors to Japanese shoji screens.",
-    category: "Decoration",
-    color: categoryColors["Decoration"]
-  },
-  {
-    slug: "macaws-bridges",
-    title: "Macaw's Bridges",
-    description: "Bridge blocks for spanning gaps. Build magnificent suspension bridges.",
-    category: "Decoration",
-    color: categoryColors["Decoration"]
-  }
+  { slug: "alexsmobs", title: "Alex's Mobs", description: "Adds dozens of new animals including tigers, raccoons, seals, orcas, and many more wild creatures.", category: "Creatures", preview: previews.creatures },
+  { slug: "doggy-talents-next", title: "Doggy Talents Next", description: "Train your dogs, level them up, and unlock new abilities. Your loyal companion has never been more useful!", category: "Pets", preview: previews.pets },
+  { slug: "domestication-innovation", title: "Domestication Innovation", description: "New features and items for your tamed animals. Make your farm more productive than ever.", category: "Farm", preview: previews.farm },
+  { slug: "better-dogs", title: "Better Dogs", description: "More realistic and diverse dog models. Your furry friend never looked this good.", category: "Pets", preview: previews.pets },
+  { slug: "better-cats", title: "Better Cats", description: "New cat breeds and appearances. From fluffy Persians to sleek Siamese cats.", category: "Pets", preview: previews.pets },
+  { slug: "aquaculture", title: "Aquaculture 2", description: "Completely overhauls fishing with new fish species, tackle, and advanced mechanics.", category: "Fishing", preview: previews.fishing },
+  { slug: "farmers-delight", title: "Farmer's Delight", description: "Makes cooking and farming much more fun with new recipes, crops, and kitchen tools.", category: "Farm", preview: previews.farm },
+  { slug: "sophisticated-backpacks", title: "Sophisticated Backpacks", description: "Advanced backpacks with upgrades, more inventory space, and better organization.", category: "Storage", preview: previews.storage },
+  { slug: "waystones", title: "Waystones", description: "Easy teleportation system. Never walk the same path twice with portable waypoints.", category: "Utility", preview: previews.utility },
+  { slug: "artifacts", title: "Artifacts", description: "Powerful magical items with unique abilities. Find, equip, and dominate.", category: "Magic", preview: previews.magic },
+  { slug: "iron-chests", title: "Iron Chests", description: "Large storage chests in various materials. Upgrade your storage capacity significantly.", category: "Storage", preview: previews.storage },
+  { slug: "storage-drawers", title: "Storage Drawers", description: "Organized storage solution with a clean interface. No more messy inventories.", category: "Storage", preview: previews.storage },
+  { slug: "biomes-o-plenty", title: "Biomes O' Plenty", description: "Over 80 new biomes to explore. From cherry blossom forests to crystal caves.", category: "World Gen", preview: previews.worldgen },
+  { slug: "terralith", title: "Terralith", description: "Creates magnificent new world generation. Every landscape is breathtaking.", category: "World Gen", preview: previews.worldgen },
+  { slug: "yungs-better-dungeons", title: "YUNG's Better Dungeons", description: "Brand new dungeons to explore with unique loot and challenging encounters.", category: "Dungeons", preview: previews.dungeons },
+  { slug: "yungs-better-mineshafts", title: "YUNG's Better Mineshafts", description: "Improved mineshafts with better visuals and more loot opportunities.", category: "World Gen", preview: previews.worldgen },
+  { slug: "mutant-more", title: "Mutant Monsters", description: "Giant and powerful mutant creatures. Epic bosses that will test your skills.", category: "Mobs", preview: previews.mobs },
+  { slug: "ice-and-fire", title: "Ice and Fire", description: "Dragons, sea serpents, and more mythical creatures. Epic battles await.", category: "Mobs", preview: previews.mobs },
+  { slug: "mowzies-mobs", title: "Mowzie's Mobs", description: "Unique bosses with distinct mechanics. Forged in Evil and other legendary encounters.", category: "Mobs", preview: previews.mobs },
+  { slug: "twilight-forest", title: "The Twilight Forest", description: "Your own dimension with dozens of bosses. Explore a magical enchanted forest.", category: "Adventure", preview: previews.adventure },
+  { slug: "create", title: "Create", description: "Machines and automation. Build contraptions, automate farms, and engineer your world.", category: "Tech", preview: previews.tech },
+  { slug: "supplementaries", title: "Supplementaries", description: "Decorative and functional blocks. Faucets, turntables, jars, and much more.", category: "Decoration", preview: previews.decoration },
+  { slug: "chipped", title: "Chipped", description: "Thousands of decorative block variants. Perfect for detailed building.", category: "Decoration", preview: previews.decoration },
+  { slug: "macaws-fences-and-walls", title: "Macaw's Fences", description: "Beautiful fence and wall variations. Make your builds stand out.", category: "Decoration", preview: previews.decoration },
+  { slug: "macaws-doors", title: "Macaw's Doors", description: "New door block varieties. From barn doors to Japanese shoji screens.", category: "Decoration", preview: previews.decoration },
+  { slug: "macaws-bridges", title: "Macaw's Bridges", description: "Bridge blocks for spanning gaps. Build magnificent suspension bridges.", category: "Decoration", preview: previews.decoration },
 ];
