@@ -14,9 +14,8 @@ const navLinks = [
   { href: "/", label: "Home", icon: Box },
   { href: "/mods", label: "Mods", icon: Layers },
   { href: "/shaders", label: "Shaders", icon: Sparkles },
-  { href: "/tutorial", label: "How to Install", icon: Play },
-  { href: "/categories", label: "Categories", icon: Grid3X3 },
   { href: "/trending", label: "Trending", icon: Flame },
+  { href: "/tutorial", label: "Nasıl İndirilir", icon: Play },
 ];
 
 export function Navbar() {
