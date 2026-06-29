@@ -207,19 +207,19 @@ export default async function ModPage({ params }: Props) {
       {/* Installation Guide */}
       <div className="bg-card/50 border-b border-border/50">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
-            <div className="flex items-center gap-2 text-sm">
-              <Shield className="h-4 w-4 text-primary" />
-              <span className="font-medium">How to Install:</span>
-            </div>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
+          <div className="flex items-center gap-3 text-sm">
+            <Shield className="h-4 w-4 text-primary shrink-0" />
+            <span className="font-medium shrink-0">Installation:</span>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
               <span>1. Download .jar file</span>
-              <span className="hidden md:inline">→</span>
+              <span className="text-border">•</span>
               <span>2. Open TLauncher</span>
-              <span className="hidden md:inline">→</span>
-              <span>3. Put in mods folder</span>
-              <span className="hidden md:inline">→</span>
-              <span>4. Launch with <strong className="text-foreground">Forge 1.21.11</strong></span>
+              <span className="text-border">•</span>
+              <span>3. Open Minecraft folder</span>
+              <span className="text-border">•</span>
+              <span>4. Put .jar in <strong className="text-foreground">mods</strong> folder</span>
+              <span className="text-border">•</span>
+              <span>5. Launch with <strong className="text-foreground">Forge 1.21.11</strong></span>
             </div>
           </div>
         </div>

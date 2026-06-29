@@ -222,6 +222,27 @@ export default async function ShaderPage({ params }: Props) {
         </div>
       </div>
 
+      {/* Installation Guide */}
+      <div className="bg-card/50 border-b border-border/50">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center gap-3 text-sm">
+            <Shield className="h-4 w-4 text-primary shrink-0" />
+            <span className="font-medium shrink-0">Installation:</span>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
+              <span>1. Download shader file</span>
+              <span className="text-border">•</span>
+              <span>2. Open Minecraft with OptiFine/Iris</span>
+              <span className="text-border">•</span>
+              <span>3. Go to Video Settings &gt; Shaders</span>
+              <span className="text-border">•</span>
+              <span>4. Click Shaders Folder</span>
+              <span className="text-border">•</span>
+              <span>5. Put file in folder &amp; select</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
         <div className="grid gap-8 lg:grid-cols-3">
