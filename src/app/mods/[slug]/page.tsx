@@ -52,7 +52,7 @@ export default async function ModPage({ params }: Props) {
             {/* Icon & Info */}
             <div className="flex items-start gap-5 flex-1">
               <div className="relative h-24 w-32 shrink-0 rounded-2xl overflow-hidden shadow-lg border border-border/50">
-                <img src={mod.preview} alt="" className="w-full h-full object-cover" />
+                <img src={mod.image} alt="" className="w-full h-full object-cover" />
               </div>
               <div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -325,7 +325,7 @@ export default async function ModPage({ params }: Props) {
                 className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-lg"
               >
                 <div className="shrink-0 w-14 h-10 rounded-lg overflow-hidden">
-                  <img src={m.preview} alt="" className="w-full h-full object-cover" />
+                  <img src={m.image} alt="" className="w-full h-full object-cover" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <h3 className="font-medium text-sm group-hover:text-primary transition-colors truncate">

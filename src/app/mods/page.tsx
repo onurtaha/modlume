@@ -22,7 +22,7 @@ export default async function ModsPage() {
           >
             <div className="relative aspect-video overflow-hidden">
               <img 
-                src={mod.preview} 
+                src={mod.image} 
                 alt={mod.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />

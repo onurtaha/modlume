@@ -18,7 +18,6 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen">
-      {/* Hero */}
       <section className="relative overflow-hidden border-b border-border/50">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl" />
@@ -76,15 +75,14 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Featured Mods */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="mb-8 flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold">Featured Mods</h2>
-              <p className="text-sm text-muted-foreground mt-1">Hand-picked by our team</p>
+              <p className="mt-1 text-sm text-muted-foreground">Hand-picked by our team</p>
             </div>
-            <Link href="/mods" className="text-sm text-primary hover:underline flex items-center gap-1">
+            <Link href="/mods" className="flex items-center gap-1 text-sm text-primary hover:underline">
               View All <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -98,7 +96,7 @@ export default async function Home() {
               >
                 <div className="relative aspect-video overflow-hidden">
                   <img 
-                    src={mod.preview} 
+                    src={mod.image} 
                     alt={mod.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
@@ -109,18 +107,12 @@ export default async function Home() {
                     </span>
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 className="text-lg font-bold text-white drop-shadow-lg">
-                      {mod.title}
-                    </h3>
-                    <p className="text-xs text-white/80 mt-1">
-                      {mod.category}
-                    </p>
+                    <h3 className="text-lg font-bold text-white drop-shadow-lg">{mod.title}</h3>
+                    <p className="mt-1 text-xs text-white/80">{mod.category}</p>
                   </div>
                 </div>
                 <div className="p-4">
-                  <p className="text-sm text-muted-foreground line-clamp-2">
-                    {mod.description}
-                  </p>
+                  <p className="text-sm text-muted-foreground line-clamp-2">{mod.description}</p>
                 </div>
               </Link>
             ))}
@@ -128,31 +120,29 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Categories */}
       <section id="categories" className="py-16 border-t border-border/50">
         <div className="container mx-auto px-4">
           <div className="mb-8">
             <h2 className="text-2xl font-bold">Categories</h2>
-            <p className="text-sm text-muted-foreground mt-1">Browse mods by type</p>
+            <p className="mt-1 text-sm text-muted-foreground">Browse mods by type</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
             {categories.map((cat) => (
               <Link
                 key={cat.name}
                 href="/mods"
                 className="group flex flex-col items-center rounded-xl border border-border bg-card p-5 text-center transition-all hover:border-primary/50 hover:bg-card/80"
               >
-                <span className="text-3xl mb-2">🎮</span>
-                <span className="font-medium text-sm">{cat.name}</span>
-                <span className="text-xs text-muted-foreground mt-1">{cat.count} mods</span>
+                <span className="mb-2 text-3xl">🎮</span>
+                <span className="text-sm font-medium">{cat.name}</span>
+                <span className="mt-1 text-xs text-muted-foreground">{cat.count} mods</span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Trending Mods */}
       <section className="py-16 border-t border-border/50">
         <div className="container mx-auto px-4">
           <div className="mb-8 flex items-center justify-between">
@@ -160,10 +150,10 @@ export default async function Home() {
               <Flame className="h-6 w-6 text-orange-500" />
               <div>
                 <h2 className="text-2xl font-bold">Trending Now</h2>
-                <p className="text-sm text-muted-foreground mt-1">Most popular this week</p>
+                <p className="mt-1 text-sm text-muted-foreground">Most popular this week</p>
               </div>
             </div>
-            <Link href="/mods" className="text-sm text-primary hover:underline flex items-center gap-1">
+            <Link href="/mods" className="flex items-center gap-1 text-sm text-primary hover:underline">
               View All <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -176,18 +166,12 @@ export default async function Home() {
                 className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-lg"
               >
                 <div className="relative h-12 w-16 shrink-0 overflow-hidden rounded-lg">
-                  <img src={mod.preview} alt="" className="w-full h-full object-cover" />
+                  <img src={mod.image} alt="" className="w-full h-full object-cover" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h3 className="font-medium text-sm group-hover:text-primary transition-colors truncate">
-                    {mod.title}
-                  </h3>
-                  <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
-                    {mod.description}
-                  </p>
-                  <span className="mt-2 inline-block text-xs text-primary">
-                    {mod.category}
-                  </span>
+                  <h3 className="text-sm font-medium group-hover:text-primary transition-colors truncate">{mod.title}</h3>
+                  <p className="mt-1 text-xs text-muted-foreground line-clamp-1">{mod.description}</p>
+                  <span className="mt-2 inline-block text-xs text-primary">{mod.category}</span>
                 </div>
               </Link>
             ))}
@@ -195,7 +179,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* New Mods */}
       <section className="py-16 border-t border-border/50">
         <div className="container mx-auto px-4">
           <div className="mb-8 flex items-center justify-between">
@@ -203,10 +186,10 @@ export default async function Home() {
               <Plus className="h-6 w-6 text-primary" />
               <div>
                 <h2 className="text-2xl font-bold">New Additions</h2>
-                <p className="text-sm text-muted-foreground mt-1">Recently added to collection</p>
+                <p className="mt-1 text-sm text-muted-foreground">Recently added to collection</p>
               </div>
             </div>
-            <Link href="/mods" className="text-sm text-primary hover:underline flex items-center gap-1">
+            <Link href="/mods" className="flex items-center gap-1 text-sm text-primary hover:underline">
               View All <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -219,18 +202,12 @@ export default async function Home() {
                 className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-lg"
               >
                 <div className="relative h-12 w-16 shrink-0 overflow-hidden rounded-lg">
-                  <img src={mod.preview} alt="" className="w-full h-full object-cover" />
+                  <img src={mod.image} alt="" className="w-full h-full object-cover" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h3 className="font-medium text-sm group-hover:text-primary transition-colors truncate">
-                    {mod.title}
-                  </h3>
-                  <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
-                    {mod.description}
-                  </p>
-                  <span className="mt-2 inline-block text-xs text-primary">
-                    {mod.category}
-                  </span>
+                  <h3 className="text-sm font-medium group-hover:text-primary transition-colors truncate">{mod.title}</h3>
+                  <p className="mt-1 text-xs text-muted-foreground line-clamp-1">{mod.description}</p>
+                  <span className="mt-2 inline-block text-xs text-primary">{mod.category}</span>
                 </div>
               </Link>
             ))}
@@ -238,15 +215,14 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="py-20 border-t border-border/50">
         <div className="container mx-auto px-4">
-          <div className="relative rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/20 via-card to-card overflow-hidden">
-            <div className="relative px-8 py-16 text-center">
+          <div className="relative overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/20 via-card to-card">
+            <div className="px-8 py-16 text-center">
               <h2 className="text-3xl md:text-4xl font-bold">
                 Ready to Enhance Your Game?
               </h2>
-              <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
+              <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
                 Browse our curated collection of {curatedMods.length}+ mods and find the perfect additions for your Minecraft world.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
