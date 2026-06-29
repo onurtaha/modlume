@@ -51,12 +51,8 @@ export default async function ModPage({ params }: Props) {
           <div className="flex flex-col lg:flex-row lg:items-start gap-6">
             {/* Icon & Info */}
             <div className="flex items-start gap-5 flex-1">
-              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-muted text-4xl shadow-lg border border-border overflow-hidden">
-                {mod.screenshot ? (
-                  <img src={mod.screenshot} alt="" className="w-full h-full object-cover" />
-                ) : (
-                  mod.icon || "🎮"
-                )}
+              <div className={"flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br shadow-lg border border-border/50 overflow-hidden " + mod.color}>
+                <span className="text-3xl font-bold text-white/80">{mod.title.charAt(0)}</span>
               </div>
               <div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -94,7 +90,7 @@ export default async function ModPage({ params }: Props) {
 
             {/* Download */}
             <div className="shrink-0 lg:w-80">
-              <a href={`/api/download/${mod.slug}`} className="download-btn inline-flex w-full justify-center">
+              <a href={"/api/download/" + mod.slug} className="download-btn inline-flex w-full justify-center">
                 <Download className="h-5 w-5" />
                 <span>Download Mod</span>
               </a>
@@ -326,24 +322,18 @@ export default async function ModPage({ params }: Props) {
               <Link
                 key={m.slug}
                 href={"/mods/" + m.slug}
-                className="group rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-lg"
+                className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-lg"
               >
-                <div className="flex items-start gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted text-lg overflow-hidden">
-                    {m.screenshot ? (
-                      <img src={m.screenshot} alt="" className="w-full h-full object-cover" />
-                    ) : (
-                      m.icon || "🎮"
-                    )}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="font-medium text-sm group-hover:text-primary transition-colors truncate">
-                      {m.title}
-                    </h3>
-                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                      {m.description}
-                    </p>
-                  </div>
+                <div className={"shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br flex items-center justify-center " + m.color}>
+                  <span className="text-lg font-bold text-white/80">{m.title.charAt(0)}</span>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-medium text-sm group-hover:text-primary transition-colors truncate">
+                    {m.title}
+                  </h3>
+                  <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                    {m.description}
+                  </p>
                 </div>
               </Link>
             ))}
