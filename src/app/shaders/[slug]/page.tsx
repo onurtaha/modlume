@@ -279,23 +279,62 @@ export default async function ShaderPage({ params }: Props) {
               </section>
             )}
 
-            {/* Description */}
+            {/* Description - Simple */}
             <section>
               <div className="mb-4 flex items-center gap-2">
                 <FileText className="h-5 w-5 text-primary" />
-                <h2 className="text-xl font-semibold">About This Shader</h2>
+                <h2 className="text-xl font-semibold">About</h2>
               </div>
-              <div className="rounded-xl border border-border bg-card p-6">
-                <div
-                  className="prose prose-sm prose-invert max-w-none 
-                    prose-headings:text-foreground prose-p:text-muted-foreground 
-                    prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-                    prose-strong:text-foreground prose-li:text-muted-foreground
-                    prose-img:rounded-lg prose-img:border prose-img:border-border"
-                  dangerouslySetInnerHTML={{ __html: project.body }}
-                />
+              <div className="rounded-xl border border-border bg-card p-5">
+                <p className="text-sm leading-relaxed text-muted-foreground whitespace-pre-wrap">
+                  {project.body.replace(/<[^>]*>/g, '').slice(0, 800)}
+                  {project.body.length > 800 ? '...' : ''}
+                </p>
+                {project.body.length > 800 && (
+                  <a
+                    href={`https://modrinth.com/shader/${project.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex items-center gap-1 text-xs text-primary hover:underline"
+                  >
+                    Read more on Modrinth
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                )}
               </div>
             </section>
+
+            {/* Preview Grid - Better */}
+            {project.gallery.length > 0 && (
+              <section>
+                <div className="mb-4 flex items-center gap-2">
+                  <ImageIcon className="h-5 w-5 text-primary" />
+                  <h2 className="text-xl font-semibold">Preview</h2>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  {project.gallery.slice(0, 4).map((img, i) => (
+                    <div
+                      key={i}
+                      className="group relative overflow-hidden rounded-2xl border-2 border-border shadow-md"
+                    >
+                      <Image
+                        src={img.url}
+                        alt={img.title || `Preview ${i + 1}`}
+                        width={800}
+                        height={450}
+                        className="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                      {img.title && (
+                        <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform">
+                          <p className="text-sm font-medium text-white drop-shadow-lg">{img.title}</p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* Versions */}
             {versions.length > 0 && (
@@ -304,23 +343,17 @@ export default async function ShaderPage({ params }: Props) {
                   <Sparkles className="h-5 w-5 text-primary" />
                   <h2 className="text-xl font-semibold">Versions</h2>
                 </div>
-                <div className="space-y-2">
-                  {versions.slice(0, 10).map((v) => (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {versions.slice(0, 6).map((v) => (
                     <div
                       key={v.id}
-                      className="flex items-center justify-between rounded-lg border border-border bg-card px-4 py-3 transition-colors hover:bg-muted/50"
+                      className="flex items-center justify-between rounded-xl border border-border bg-card px-4 py-3 hover:border-primary/50 transition-colors"
                     >
-                      <div className="flex items-center gap-4">
-                        <div>
-                          <p className="font-medium">{v.name}</p>
-                          <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                            <span>{formatDownloads(v.downloads)} downloads</span>
-                            <span>•</span>
-                            <span>{timeAgo(v.date_published)}</span>
-                          </div>
-                        </div>
+                      <div>
+                        <p className="text-sm font-medium truncate max-w-[150px]">{v.name}</p>
+                        <p className="text-xs text-muted-foreground">{timeAgo(v.date_published)}</p>
                       </div>
-                      <Badge variant="outline" className="text-xs">
+                      <Badge variant="secondary" className="text-xs">
                         1.21.11
                       </Badge>
                     </div>
