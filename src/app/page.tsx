@@ -41,10 +41,6 @@ export default async function Home() {
                 ModLume
               </span>
             </h1>
-            
-            <p className="mt-6 text-xl text-muted-foreground max-w-xl mx-auto">
-              The best Minecraft mods in one place. Download, install, play.
-            </p>
 
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
