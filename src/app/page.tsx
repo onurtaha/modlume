@@ -119,23 +119,19 @@ export default async function Home() {
                     alt={mod.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  
-                  {/* Category Badge */}
-                  <div className="absolute top-3 right-3">
-                    <span className="inline-flex items-center rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-medium text-white">
-                      {mod.category}
-                    </span>
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                   
                   {/* Title Overlay */}
                   <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 className="text-lg font-bold text-white drop-shadow-lg">{mod.title}</h3>
+                    <h3 className="text-lg font-bold text-white drop-shadow-lg leading-tight">{mod.title}</h3>
                   </div>
                 </div>
                 
-                {/* Description */}
+                {/* Category & Description */}
                 <div className="p-4">
+                  <span className="inline-flex items-center rounded-full bg-primary/20 text-primary px-2 py-0.5 text-xs font-medium mb-2">
+                    {mod.category}
+                  </span>
                   <p className="text-sm text-muted-foreground line-clamp-2">{mod.description}</p>
                 </div>
                 
